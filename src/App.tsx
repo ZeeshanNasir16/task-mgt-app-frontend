@@ -1,14 +1,16 @@
-import React from 'react'
-import './App.css'
+// import Dashboard from 'Pages/Dashboard';
+import { Dashboard } from 'Layouts/Dashboard';
+import React from 'react';
+import { ThemeConfig } from 'theme';
 
-function App() {
+const App: React.FC = () => {
   return (
-    <div>
-      <h1 style={{ textAlign: 'center' }}>
-        React || TypeScript || Material UI V.5.4 ---- BoilerCode
-      </h1>
-    </div>
-  )
-}
+    <>
+      <ThemeConfig>
+        <Dashboard />
+      </ThemeConfig>
+    </>
+  );
+};
 
-export default App
+export default App;
