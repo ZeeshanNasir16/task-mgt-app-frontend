@@ -4,13 +4,16 @@ export const users = {
   admin: {
     email: 'admin@gmail.com',
     username: 'Admin',
+    role: 'admin',
   },
   manager: {
     email: 'manager1@gmail.com',
+    role: 'manager',
     username: 'Aslam Naseer',
   },
   user: {
     email: 'ahmad1@gmail.com',
+    role: 'user',
     username: 'Ahmad',
   },
 };
@@ -50,10 +53,40 @@ export const teamMembers = [...Array(5)].map((_, ind) => ({
   email: `${faker.name.fullName()}@gmail.com`,
 }));
 
+export interface IProjFiles {
+  _id: string;
+  name: string;
+  image: string;
+  createdOn: string;
+}
+
 export const projFiles = [...Array(3)].map((_, ind) => ({
   _id: faker.datatype.uuid(),
   name: faker.commerce.productName(),
   image: `/Assets/file_${ind + 1}.svg`,
+  createdOn: '12 Oct 2022',
+}));
+
+export interface IActivity {
+  id: string;
+  user: {
+    name: string;
+    image: string;
+  };
+  createdOn: string;
+  headline: string;
+  body: string;
+}
+
+export const activity = [...Array(5)].map((_, ind) => ({
+  _id: faker.datatype.uuid(),
+  user: {
+    name: faker.name.fullName(),
+    image: `/Assets/user_${ind + 1}.jpg`,
+  },
+  createdOn: '12 Oct 2022',
+  headline: faker.lorem.lines(1),
+  body: faker.lorem.lines(3),
 }));
 
 // export const reviews = [...Array(4)].map((_, index) => ({

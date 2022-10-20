@@ -1,22 +1,13 @@
 import { Box, Tab, Tabs, Typography } from '@mui/material';
 import { useState } from 'react';
 
-interface TabProps {
-  label: string;
-  Component: JSX.Element;
-}
-
-interface Props {
-  tabs: TabProps[];
-}
-
-interface TabPanelProps {
+interface ITabPanel {
   index: number;
   value: number;
   children: JSX.Element;
 }
 
-function TabPanel(props: TabPanelProps) {
+function TabPanel(props: ITabPanel) {
   const { children, value, index } = props;
 
   return (
@@ -42,7 +33,16 @@ function TabPanel(props: TabPanelProps) {
 //   };d
 // }
 
-export default function BasicTabs({ tabs }: Props) {
+interface ITabProps {
+  label: string;
+  Component: JSX.Element;
+}
+
+interface ITabLayout {
+  tabs: ITabProps[];
+}
+
+export const TabLayout = ({ tabs }: ITabLayout) => {
   const [value, setValue] = useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -69,4 +69,4 @@ export default function BasicTabs({ tabs }: Props) {
       ))}
     </Box>
   );
-}
+};

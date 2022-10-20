@@ -66,7 +66,7 @@ export const DashBoardNavBar = (props: DashboardProps) => {
           </IconButton>
         </MHidden>
 
-        <Typography variant='h4' color='text.primary'>
+        <Typography variant='h5' color='text.secondary'>
           Welcome, Aslam Naseer
         </Typography>
         {/* <Searchbar /> */}

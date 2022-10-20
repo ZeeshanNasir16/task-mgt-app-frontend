@@ -1,15 +1,16 @@
 import React, { ReactElement } from 'react';
-import TabLayout from 'Layouts/common/TabLayout';
+import { TabLayout } from 'Layouts/common/TabLayout';
 import { Project, projFiles } from 'data';
 import { Avatar, Box, Grid, styled, Typography } from '@mui/material';
 import { GeneratedIdentifierFlags } from 'typescript';
 import { RndCrndInnerWrapper } from 'Layouts/common/RoundCornInnerWrapper';
+import { FileLayout } from '../FileLayout';
 
-const FileLayout = styled('div')(({ theme }) => ({
-  display: 'flex',
-  gap: '0.5rem',
-  flexWrap: 'nowrap',
-}));
+// const FileLayout = styled('div')(({ theme }) => ({
+//   display: 'flex',
+//   gap: '0.5rem',
+//   flexWrap: 'nowrap',
+// }));
 
 const Overview: JSX.Element = (
   <Box>
@@ -26,14 +27,11 @@ const Overview: JSX.Element = (
           Project Files
         </Typography>
         <RndCrndInnerWrapper>
-          {projFiles.map((el) => {
-            <FileLayout key={el._id}>
-              <Avatar alt={el.name} src={el.image} variant='square' />
-              <Typography variant='body1' mb={2}>
-                {el.name}
-              </Typography>
-            </FileLayout>;
-          })}
+          {projFiles.map((el) => (
+            <React.Fragment key={el._id}>
+              <FileLayout name={el.name} src={el.image} />
+            </React.Fragment>
+          ))}
         </RndCrndInnerWrapper>
       </Grid>
       <Grid item xs={12} sm={6}>
@@ -69,11 +67,7 @@ const tabs = [
 ];
 
 const ProjectTabLayout = () => {
-  return (
-    <>
-      <TabLayout tabs={tabs} />
-    </>
-  );
+  return <>{/* <TabLayout tabs={tabs} /> */}</>;
 };
 
 export default ProjectTabLayout;

@@ -50,7 +50,7 @@ export const AdminSideBar = [
 export const ProjManagerSideBar = [
   {
     title: 'WorkSpace',
-    path: '/',
+    path: '/workspace',
     icon: getIcon(WorkSpaceIcon),
   },
   // {
@@ -60,22 +60,22 @@ export const ProjManagerSideBar = [
   // },
   {
     title: 'Project Board',
-    path: '/',
+    path: '/projectboard',
     icon: getIcon(ProjectsIcon),
   },
   {
     title: 'Analytics',
-    path: '/',
+    path: '/analytics',
     icon: getIcon(AnalyticsIcon),
   },
   {
     title: 'Settings',
-    path: '/',
+    path: '/settings',
     icon: getIcon(SettingsIcon),
   },
   {
     title: 'My Account',
-    path: '/',
+    path: '/account',
     icon: getIcon(AccountIcon),
   },
 ];

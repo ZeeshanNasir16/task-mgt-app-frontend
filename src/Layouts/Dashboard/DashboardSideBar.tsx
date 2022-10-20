@@ -1,4 +1,4 @@
-import { styled, Theme, CSSObject, useTheme } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
 // import List from '@mui/material/List';
@@ -17,6 +17,7 @@ import { Button, Stack, Typography } from '@mui/material';
 import DrawerNavSection from 'Components/Drawer/DrawerNavSection';
 import { ProjManagerSideBar } from 'Components/Drawer/DrawerNavConfig';
 import { MHidden } from 'Components/@material-extend';
+import { NavLink } from 'react-router-dom';
 const DRAWER_WIDTH = 240;
 
 // const openedMixin = (theme: Theme): CSSObject => ({
@@ -84,11 +85,24 @@ export const DashboardSideBar = ({
 }: SideDrawerProps) => {
   const renderContent = (
     <>
-      {/* <Box sx={{ px: 2.5, py: 3 }}>
-        <Box component={RouterLink} to='/' sx={{ display: 'inline-flex' }}>
-          <Logo />
+      <Box sx={{ px: 2.5, py: 3 }}>
+        <Box
+          component={(props) => <NavLink {...props} to='/' sx={{ flex: 1 }} />}
+          sx={{
+            display: 'inline-flex',
+            textDecoration: 'none',
+          }}
+        >
+          <Typography
+            variant='h4'
+            sx={{ fontWeight: 800 }}
+            color='primary'
+            align='center'
+          >
+            Manage.
+          </Typography>
         </Box>
-      </Box> */}
+      </Box>
 
       <DrawerNavSection navConfig={ProjManagerSideBar} />
       <Box sx={{ flexGrow: 1 }} />
@@ -130,34 +144,6 @@ export const DashboardSideBar = ({
           </Button>
         </Stack>
       </Box>
-      {/* <List>
-        {ProjManagerSideBar.map((el, index) => (
-          <ListItem key={el.title} disablePadding sx={{ display: 'block' }}>
-            <ListItemButton
-              sx={{
-                minHeight: 48,
-                justifyContent: isOpenSidebar ? 'initial' : 'center',
-                px: 2.5,
-              }}
-            >
-              <ListItemIcon
-                sx={{
-                  minWidth: 0,
-                  mr: isOpenSidebar ? 3 : 'auto',
-                  justifyContent: 'center',
-                }}
-              >
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                {el.icon}
-              </ListItemIcon>
-              <ListItemText
-                primary={el.title}
-                sx={{ opacity: isOpenSidebar ? 1 : 0 }}
-              />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List> */}
     </>
   );
 
@@ -173,7 +159,6 @@ export const DashboardSideBar = ({
             sx: { width: DRAWER_WIDTH, zIndex: 1201 },
           }}
         >
-          {console.log('first')}
           {renderContent}
         </MuiDrawer>
       </MHidden>
@@ -189,8 +174,6 @@ export const DashboardSideBar = ({
             },
           }}
         >
-          {console.log('second')}
-
           {renderContent}
         </MuiDrawer>
       </MHidden>
