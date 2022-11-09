@@ -1,8 +1,18 @@
-import { Avatar, AvatarGroup, Box, styled, Typography } from '@mui/material';
+import {
+  Avatar,
+  AvatarGroup,
+  Box,
+  IconButton,
+  styled,
+  Typography,
+} from '@mui/material';
+import { getIcon } from 'Utils/GetIcon';
 import { User } from 'Components/User.interface';
 import { RndCrndInnerWrapper } from 'Layouts/common/RoundCornInnerWrapper';
 import { RndCrndWrapper } from 'Layouts/common/RoundCornWrapper';
 import React from 'react';
+import moreVerticalFill from '@iconify/icons-eva/more-vertical-fill';
+import formOutlined from '@iconify/icons-ant-design/form-outlined';
 
 const ProjHeadDetails = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -31,16 +41,23 @@ export const ProjBoardHeader = (props: ProjBoardHeadProps) => {
   return (
     <RndCrndInnerWrapper>
       <Box>
-        <Typography
-          variant='h3'
-          sx={{
-            textTransform: 'uppercase',
-            fontWeight: 400,
-            marginBottom: '0.5rem !important',
-          }}
-        >
-          {projTitle}
-        </Typography>
+        <Box display='flex' justifyContent='space-between'>
+          <Typography
+            variant='h3'
+            sx={{
+              textTransform: 'uppercase',
+              fontWeight: 400,
+              marginBottom: '0.5rem !important',
+            }}
+          >
+            {projTitle}
+          </Typography>
+          <Box sx={{ display: 'content' }}>
+            <IconButton sx={{ display: 'content' }}>
+              {getIcon(formOutlined)}
+            </IconButton>
+          </Box>
+        </Box>
         <ProjHeadDetails>
           <Typography variant='subtitle1'>{createdOn}</Typography>
           <AvatarGroup

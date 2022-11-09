@@ -18,6 +18,7 @@ import DrawerNavSection from 'Components/Drawer/DrawerNavSection';
 import { ProjManagerSideBar } from 'Components/Drawer/DrawerNavConfig';
 import { MHidden } from 'Components/@material-extend';
 import { NavLink } from 'react-router-dom';
+import Scrollbar from 'Components/common/Scrollbar';
 const DRAWER_WIDTH = 240;
 
 // const openedMixin = (theme: Theme): CSSObject => ({
@@ -84,22 +85,36 @@ export const DashboardSideBar = ({
   onCloseSidebar,
 }: SideDrawerProps) => {
   const renderContent = (
-    <>
-      <Box sx={{ px: 2.5, py: 3 }}>
+    <Scrollbar
+      sx={{
+        height: '100%',
+        '& .simplebar-content': {
+          height: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+        },
+      }}
+    >
+      <Box sx={{ px: 2.5, py: 2.5 }}>
         <Box
           component={(props) => <NavLink {...props} to='/' sx={{ flex: 1 }} />}
           sx={{
-            display: 'inline-flex',
+            // display: 'inline-flex',
+            // textDecoration: 'none',
+            // flexDirection: 'column',
+            // alignItems: 'center',
             textDecoration: 'none',
           }}
         >
-          <Typography
-            variant='h4'
-            sx={{ fontWeight: 800 }}
-            color='primary'
-            align='center'
-          >
+          <Typography variant='h4' sx={{ fontWeight: 800 }} color='primary'>
             Manage.
+          </Typography>
+          <Typography
+            variant='subtitle2'
+            sx={{ fontWeight: 500 }}
+            color='text.primary'
+          >
+            Project Manager
           </Typography>
         </Box>
       </Box>
@@ -119,32 +134,32 @@ export const DashboardSideBar = ({
             bgcolor: 'grey.200',
           }}
         >
-          <Box
+          {/* <Box
             component='img'
             src='/static/illustrations/illustration_avatar.png'
             sx={{ width: 100, position: 'absolute', top: -50 }}
-          />
+          /> */}
 
-          <Box sx={{ textAlign: 'center' }}>
+          {/* <Box sx={{ textAlign: 'center' }}>
             <Typography gutterBottom variant='h6'>
               Get more?
             </Typography>
             <Typography variant='body2' sx={{ color: 'text.secondary' }}>
               From only $69
             </Typography>
-          </Box>
+          </Box> */}
 
-          <Button
+          {/* <Button
             fullWidth
             href='https://material-ui.com/store/items/minimal-dashboard/'
             target='_blank'
             variant='contained'
           >
             Upgrade to Pro
-          </Button>
+          </Button> */}
         </Stack>
       </Box>
-    </>
+    </Scrollbar>
   );
 
   return (
@@ -170,7 +185,7 @@ export const DashboardSideBar = ({
           PaperProps={{
             sx: {
               width: DRAWER_WIDTH,
-              bgcolor: 'background.default',
+              bgcolor: 'background.paper',
             },
           }}
         >

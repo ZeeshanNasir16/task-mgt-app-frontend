@@ -1,4 +1,5 @@
 import { faker } from '@faker-js/faker';
+// import { set } from 'date-fns';
 
 export const users = {
   admin: {
@@ -53,6 +54,26 @@ export const teamMembers = [...Array(5)].map((_, ind) => ({
   email: `${faker.name.fullName()}@gmail.com`,
 }));
 
+export interface INotification {
+  id: string;
+  title: string;
+  description: string;
+  avatar: string;
+  createdAt: string;
+  type: string;
+  isUnRead: boolean;
+}
+
+export const Notifications = [...Array(5)].map((_, ind) => ({
+  id: faker.datatype.uuid(),
+  title: faker.lorem.words(3),
+  description: faker.lorem.paragraph(2),
+  avatar: `/Assets/user_${ind + 1}.jpg`,
+  type: 'mail',
+  createdAt: new Date().toLocaleDateString(),
+  isUnRead: true,
+}));
+
 export interface IProjFiles {
   _id: string;
   name: string;
@@ -87,6 +108,21 @@ export const activity = [...Array(5)].map((_, ind) => ({
   createdOn: '12 Oct 2022',
   headline: faker.lorem.lines(1),
   body: faker.lorem.lines(3),
+}));
+
+export const tasks = [...Array(5)].map((_, ind) => ({
+  _id: faker.datatype.uuid(),
+  description: faker.lorem.lines(1),
+  assignedTo: {
+    _id: faker.datatype.uuid(),
+    name: faker.name.fullName(),
+    image: `/Assets/user_${ind + 1}.jpg`,
+  },
+  deadline: faker.date.future(0).toLocaleDateString([], {
+    month: 'short',
+    day: '2-digit',
+  }),
+  status: 'In-Progress',
 }));
 
 // export const reviews = [...Array(4)].map((_, index) => ({

@@ -17,7 +17,7 @@ const Wrapper = styled('div')((theme) => ({
   flexDirection: 'row',
   alignItems: 'start',
   '& > :not(:last-child)': {
-    marginRight: '0.5rem',
+    marginRight: '1rem',
   },
 
   '& h6': {},
@@ -38,7 +38,11 @@ export const Activity = (props: IActivity) => {
           <Typography variant='subtitle2' sx={{ lineHeight: 1.4 }}>
             {headline}
           </Typography>
-          <Typography variant='caption' color='secondary' sx={{ minWidth: 70 }}>
+          <Typography
+            variant='caption'
+            color='text.secondary'
+            sx={{ minWidth: 70 }}
+          >
             {createdOn}
           </Typography>
         </Box>

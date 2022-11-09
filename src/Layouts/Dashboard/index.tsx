@@ -1,8 +1,9 @@
-import { styled, Theme } from '@mui/material';
+import { Container, styled, Theme } from '@mui/material';
 import { DashBoardNavBar } from './DashboardNavBar';
 import { DashboardSideBar } from './DashboardSideBar';
 import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom';
+import Page from 'Components/common/Page';
 
 const APP_BAR_MOBILE = 64;
 const APP_BAR_DESKTOP = 92;
@@ -37,7 +38,12 @@ export const DashboardLayout = () => {
       <DashBoardNavBar onOpenSidebar={toggleOpen} open={open} />
       <DashboardSideBar isOpenSidebar={open} onCloseSidebar={toggleOpen} />
       <MainStyle>
-        <Outlet />
+        <Container maxWidth='xl'>
+          <Outlet />
+          {/* <Page title='Project Board | Manager'>
+            <Outlet />
+          </Page> */}
+        </Container>
       </MainStyle>
     </RootStyle>
   );

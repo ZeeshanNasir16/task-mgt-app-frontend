@@ -58,11 +58,11 @@ export const ProjManagerSideBar = [
   //   path: '/',
   //   icon: getIcon(EmployeesIcon),
   // },
-  {
-    title: 'Project Board',
-    path: '/projectboard',
-    icon: getIcon(ProjectsIcon),
-  },
+  // {
+  //   title: 'Project Board',
+  //   path: '/projectBoard',
+  //   icon: getIcon(ProjectsIcon),
+  // },
   {
     title: 'Analytics',
     path: '/analytics',

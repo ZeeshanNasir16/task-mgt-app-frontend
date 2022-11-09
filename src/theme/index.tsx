@@ -20,6 +20,7 @@ export const ThemeConfig: React.FunctionComponent = (props) => {
       palette,
       typography,
       breakpoints,
+      
       // customShadows,
       // shape,
     }),

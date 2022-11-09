@@ -62,6 +62,10 @@ export default function GlobalStyles() {
         },
         a: { color: theme.palette.primary.main },
         img: { display: 'block', maxWidth: '100%' },
+        '.dispFlexAlgnCentr': {
+          display: 'flex',
+          alignItems: 'center',
+        },
       }}
     />
   );

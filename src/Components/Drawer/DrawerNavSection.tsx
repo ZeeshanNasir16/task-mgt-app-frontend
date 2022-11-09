@@ -106,10 +106,10 @@ function DrawerItem({ item, active }: SingleItemProps) {
     },
   };
 
-  const activeSubStyle = {
-    color: 'text.primary',
-    fontWeight: 'fontWeightMedium',
-  };
+  // const activeSubStyle = {
+  //   color: 'text.primary',
+  //   fontWeight: 'fontWeightMedium',
+  // };
 
   return (
     <>
@@ -139,7 +139,8 @@ export default function NavSection({ navConfig }: NavSectionProps) {
 
   return (
     <Box
-    //  {...other}
+      sx={{ mt: 1 }}
+      //  {...other}
     >
       <List disablePadding>
         {navConfig.map((item) => (
