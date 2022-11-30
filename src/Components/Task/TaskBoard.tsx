@@ -1,7 +1,7 @@
 import { alpha, Box, styled, Typography } from '@mui/material';
 import Page from 'Components/common/Page';
-import { Task } from 'Components/ProjectBoardView/BoardTabs/TaskTable';
-import { BoardItem } from 'Components/Task/BoardItem';
+import { Task } from 'Components/Task/TaskTable';
+import { TaskBoardItem } from 'Components/Task/TaskBoardItem';
 import TaskBoardColumn from 'Components/Task/TaskBoardColumn';
 import { tasks } from 'data';
 import { WrapperHeader } from 'Layouts/common/WrapperHeader';
@@ -34,7 +34,7 @@ export const TaskBoard = (props: Props) => {
           headerTitle='To Do'
         >
           {tasks.map((el: Task) => (
-            <BoardItem task={el} />
+            <TaskBoardItem task={el} />
           ))}
         </TaskBoardColumn>
         <TaskBoardColumn
@@ -43,9 +43,9 @@ export const TaskBoard = (props: Props) => {
           }}
           headerTitle='In Progress'
         >
-          <BoardItem task={tasks[0]} />
-          <BoardItem task={tasks[0]} />
-          <BoardItem task={tasks[0]} />
+          <TaskBoardItem task={tasks[0]} />
+          <TaskBoardItem task={tasks[0]} />
+          <TaskBoardItem task={tasks[0]} />
         </TaskBoardColumn>
         <TaskBoardColumn
           sx={{
@@ -53,8 +53,8 @@ export const TaskBoard = (props: Props) => {
           }}
           headerTitle='Review'
         >
-          <BoardItem task={tasks[0]} />
-          <BoardItem task={tasks[0]} />
+          <TaskBoardItem task={tasks[0]} />
+          <TaskBoardItem task={tasks[0]} />
         </TaskBoardColumn>
         <TaskBoardColumn
           sx={{
@@ -62,10 +62,10 @@ export const TaskBoard = (props: Props) => {
           }}
           headerTitle='Completed'
         >
-          <BoardItem task={tasks[0]} />
-          <BoardItem task={tasks[0]} />
-          <BoardItem task={tasks[0]} />
-          <BoardItem task={tasks[0]} />
+          <TaskBoardItem task={tasks[0]} />
+          <TaskBoardItem task={tasks[0]} />
+          <TaskBoardItem task={tasks[0]} />
+          <TaskBoardItem task={tasks[0]} />
         </TaskBoardColumn>
       </RootStyle>
     </Page>

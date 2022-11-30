@@ -12,6 +12,7 @@ import palette from './palette';
 import typography from './typography';
 import GlobalStyles from './globalStyles';
 import breakpoints from './breakpoints';
+import components from './components';
 // import shadows, { customShadows } from './shadows';
 
 export const ThemeConfig: React.FunctionComponent = (props) => {
@@ -20,8 +21,14 @@ export const ThemeConfig: React.FunctionComponent = (props) => {
       palette,
       typography,
       breakpoints,
-      
-      // customShadows,
+      components,
+      // custom: {
+      //   borderRadius: {
+      //     lrg: 16,
+      //     med: 10,
+      //     sm: 6,
+      //   },
+      // },
       // shape,
     }),
     []

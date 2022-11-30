@@ -1,6 +1,6 @@
 import { Paper, Typography } from '@mui/material';
 import Page from 'Components/common/Page';
-import AccountHeader from 'Components/User/AccountHeader';
+import AccountHeader from 'Components/User/ProfileHeader';
 import { RndCrndWrapper } from 'Layouts/common/RoundCornWrapper';
 import { WrapperHeader } from 'Layouts/common/WrapperHeader';
 import React from 'react';

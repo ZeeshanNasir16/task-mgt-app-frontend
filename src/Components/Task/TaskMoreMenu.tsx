@@ -13,7 +13,7 @@ import {
   ListItemIcon,
   ListItemText,
 } from '@mui/material';
-import { Task } from 'Components/ProjectBoardView/BoardTabs/TaskTable';
+import { Task } from 'Components/Task/TaskTable';
 // import AssignmentIcon from '@material-ui/icons/Assignment';
 // material
 // import {
@@ -27,7 +27,7 @@ import { Task } from 'Components/ProjectBoardView/BoardTabs/TaskTable';
 
 // ----------------------------------------------------------------------
 
-interface IUserMoreMenu {
+interface ITaskMoreMenu {
   currentTask: Task;
   setSelected: React.Dispatch<React.SetStateAction<Task | undefined>>;
   viewLink: string;
@@ -44,7 +44,7 @@ interface IUserMoreMenu {
   noEdit?: boolean;
 }
 
-export default function UserMoreMenu({
+export default function TaskMoreMenu({
   currentTask,
   setSelected,
   toggleDelOpen,
@@ -59,7 +59,7 @@ export default function UserMoreMenu({
   noEdit,
   viewTask,
   viewLink,
-}: IUserMoreMenu) {
+}: ITaskMoreMenu) {
   const navigate = useNavigate();
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);

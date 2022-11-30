@@ -21,30 +21,30 @@ export interface NavItem {
 
 export const AdminSideBar = [
   {
-    title: 'dashboard',
-    path: '/',
+    title: 'Dashboard',
+    path: '/dashboard',
     icon: getIcon(DashBoardIcon),
   },
   {
-    title: 'Employees',
-    path: '/',
-    icon: getIcon(EmployeesIcon),
-  },
-  {
     title: 'Projects',
-    path: '/',
+    path: '/projects',
     icon: getIcon(ProjBoard),
   },
   {
-    title: 'Analytics & Reports',
-    path: '/',
-    icon: getIcon(AnalyticsIcon),
+    title: 'Employees',
+    path: '/employees',
+    icon: getIcon(EmployeesIcon),
   },
   {
-    title: 'Settings',
-    path: '/',
-    icon: getIcon(SettingsIcon),
+    title: 'Analytics & Reports',
+    path: '/analytics',
+    icon: getIcon(AnalyticsIcon),
   },
+  // {
+  //   title: 'Settings',
+  //   path: '/',
+  //   icon: getIcon(SettingsIcon),
+  // },
 ];
 
 export const ProjManagerSideBar = [

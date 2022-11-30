@@ -24,6 +24,7 @@ import React from 'react';
 
 import MuiAppBar from '@mui/material/AppBar';
 import NotificationsPopover from 'Layouts/Dashboard/NotificationPopover';
+import { Logo } from 'Components/common/Logo';
 
 const DRAWER_WIDTH = 240;
 const APPBAR_MOBILE = 64;
@@ -61,17 +62,21 @@ export const DashBoardNavBar = (props: DashboardProps) => {
     <RootStyle>
       <ToolbarStyle>
         <MHidden type='up' value='lg'>
-          <IconButton
-            onClick={onOpenSidebar}
-            sx={{ mr: 1, color: 'text.primary' }}
-          >
-            <Icon icon={menu2Fill} />
-          </IconButton>
+          <React.Fragment>
+            <IconButton
+              onClick={onOpenSidebar}
+              sx={{ mr: 1, color: 'text.primary' }}
+            >
+              <Icon icon={menu2Fill} />
+            </IconButton>
+            <Logo variant='h4' />
+          </React.Fragment>
         </MHidden>
-
-        <Typography variant='h5' color='text.secondary'>
-          Welcome, Aslam
-        </Typography>
+        <MHidden type='down' value='lg'>
+          <Typography variant='h5' color='text.secondary'>
+            Welcome
+          </Typography>
+        </MHidden>
         {/* <Searchbar /> */}
         <Box sx={{ flexGrow: 1 }} />
 

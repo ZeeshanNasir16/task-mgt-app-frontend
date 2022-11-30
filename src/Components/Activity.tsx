@@ -42,11 +42,12 @@ export const Activity = (props: IActivity) => {
             variant='caption'
             color='text.secondary'
             sx={{ minWidth: 70 }}
+            component='span'
           >
             {createdOn}
           </Typography>
         </Box>
-        <Typography variant='body2' className='textLimit'>
+        <Typography variant='body2' component='span' className='textLimit'>
           {body}
         </Typography>
       </Box>

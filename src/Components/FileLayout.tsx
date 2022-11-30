@@ -42,7 +42,11 @@ export const FileLayout = (props: FLProps) => {
           />
           <Box display='flex' flexDirection='column'>
             <Typography variant='subtitle2'>{name}</Typography>
-            <Typography variant='caption' color='text.secondary'>
+            <Typography
+              variant='caption'
+              component='span'
+              color='text.secondary'
+            >
               48MB - 18 Oct 2022
             </Typography>
           </Box>

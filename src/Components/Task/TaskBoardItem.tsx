@@ -2,7 +2,7 @@ import React from 'react';
 
 import { alpha, Divider, styled, Typography, useTheme } from '@mui/material';
 import { Box } from '@mui/system';
-import { Task } from 'Components/ProjectBoardView/BoardTabs/TaskTable';
+import { Task } from 'Components/Task/TaskTable';
 import { getIcon } from 'Utils/GetIcon';
 
 import optionsIcon from '@iconify/icons-eva/more-horizontal-fill';
@@ -23,7 +23,6 @@ const RootStyle = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   gap: '1rem',
-  cursor: 'pointer',
 
   '&:hover': {
     boxShadow: `${alpha('#919EAB', 0.16)} 0px 20px 40px -4px`,
@@ -31,11 +30,11 @@ const RootStyle = styled(Box)(({ theme }) => ({
   },
 }));
 
-export const BoardItem = (props: IBoardItem) => {
+export const TaskBoardItem = (props: IBoardItem) => {
   const { task } = props;
   const theme = useTheme();
   return (
-    <RootStyle>
+    <RootStyle className='cursorPointer'>
       <Typography variant='subtitle2'>{task.description}</Typography>
       <Divider sx={{ mt: 2 }} />
       <Box
@@ -44,11 +43,15 @@ export const BoardItem = (props: IBoardItem) => {
       >
         <Box display='flex' gap={1}>
           {getIcon(flagFill, `${theme.palette.error.main}`)}
-          <Typography variant='body2'>{task.deadline}</Typography>
+          <Typography variant='body2' component='span'>
+            {task.deadline}
+          </Typography>
         </Box>
         <Box display='flex' gap={1}>
           {getIcon(messageSquareFill, `${theme.palette.info.main}`)}
-          <Typography variant='body2'>3</Typography>
+          <Typography variant='body2' component='span'>
+            3
+          </Typography>
         </Box>
       </Box>
     </RootStyle>

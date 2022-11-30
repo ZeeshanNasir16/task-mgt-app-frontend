@@ -54,6 +54,14 @@ export const teamMembers = [...Array(5)].map((_, ind) => ({
   email: `${faker.name.fullName()}@gmail.com`,
 }));
 
+export const projCard = [
+  {
+    projName: 'WorkLoad Accessories',
+    projManager: 'Aslam Naseer',
+    dueDate: '23/10/2023',
+  },
+];
+
 export interface INotification {
   id: string;
   title: string;
@@ -112,7 +120,7 @@ export const activity = [...Array(5)].map((_, ind) => ({
 
 export const tasks = [...Array(5)].map((_, ind) => ({
   _id: faker.datatype.uuid(),
-  description: faker.lorem.lines(1),
+  description: faker.lorem.words(3),
   assignedTo: {
     _id: faker.datatype.uuid(),
     name: faker.name.fullName(),
@@ -125,6 +133,13 @@ export const tasks = [...Array(5)].map((_, ind) => ({
   status: 'In-Progress',
 }));
 
+export const employees = [...Array(5)].map((_, ind) => ({
+  _id: faker.datatype.uuid(),
+  name: faker.name.fullName(),
+  image: `/Assets/user_${ind + 1}.jpg`,
+  designation: ind > 2 ? 'user' : 'manager',
+  email: 'aaa@mail.com',
+}));
 // export const reviews = [...Array(4)].map((_, index) => ({
 //   user: {
 //     _id: faker.datatype.uuid(),

@@ -15,10 +15,18 @@ import CssBaseline from '@mui/material/CssBaseline';
 // import ChevronLeftIcon from '@iconify/icons-eva/chevron-left-fill';
 import { Button, Stack, Typography } from '@mui/material';
 import DrawerNavSection from 'Components/Drawer/DrawerNavSection';
-import { ProjManagerSideBar } from 'Components/Drawer/DrawerNavConfig';
+import {
+  AdminSideBar,
+  ProjManagerSideBar,
+  UserSidebar,
+} from 'Components/Drawer/DrawerNavConfig';
 import { MHidden } from 'Components/@material-extend';
 import { NavLink } from 'react-router-dom';
 import Scrollbar from 'Components/common/Scrollbar';
+import { Logo } from 'Components/common/Logo';
+
+import { users } from 'data';
+
 const DRAWER_WIDTH = 240;
 
 // const openedMixin = (theme: Theme): CSSObject => ({
@@ -84,6 +92,8 @@ export const DashboardSideBar = ({
   isOpenSidebar,
   onCloseSidebar,
 }: SideDrawerProps) => {
+  const user = users['admin'];
+
   const renderContent = (
     <Scrollbar
       sx={{
@@ -99,66 +109,34 @@ export const DashboardSideBar = ({
         <Box
           component={(props) => <NavLink {...props} to='/' sx={{ flex: 1 }} />}
           sx={{
-            // display: 'inline-flex',
-            // textDecoration: 'none',
-            // flexDirection: 'column',
-            // alignItems: 'center',
             textDecoration: 'none',
           }}
         >
-          <Typography variant='h4' sx={{ fontWeight: 800 }} color='primary'>
-            Manage.
-          </Typography>
+          <Logo variant='h4' />
           <Typography
             variant='subtitle2'
             sx={{ fontWeight: 500 }}
             color='text.primary'
           >
-            Project Manager
+            {user.role === 'admin'
+              ? 'Administrator'
+              : user.role === 'manager'
+              ? 'Project Manager'
+              : 'User'}
           </Typography>
         </Box>
       </Box>
 
-      <DrawerNavSection navConfig={ProjManagerSideBar} />
+      <DrawerNavSection
+        navConfig={
+          user.role === 'admin'
+            ? AdminSideBar
+            : user.role === 'manager'
+            ? ProjManagerSideBar
+            : UserSidebar
+        }
+      />
       <Box sx={{ flexGrow: 1 }} />
-
-      <Box sx={{ px: 2.5, pb: 3, mt: 10 }}>
-        <Stack
-          alignItems='center'
-          spacing={3}
-          sx={{
-            p: 2.5,
-            pt: 5,
-            borderRadius: 2,
-            position: 'relative',
-            bgcolor: 'grey.200',
-          }}
-        >
-          {/* <Box
-            component='img'
-            src='/static/illustrations/illustration_avatar.png'
-            sx={{ width: 100, position: 'absolute', top: -50 }}
-          /> */}
-
-          {/* <Box sx={{ textAlign: 'center' }}>
-            <Typography gutterBottom variant='h6'>
-              Get more?
-            </Typography>
-            <Typography variant='body2' sx={{ color: 'text.secondary' }}>
-              From only $69
-            </Typography>
-          </Box> */}
-
-          {/* <Button
-            fullWidth
-            href='https://material-ui.com/store/items/minimal-dashboard/'
-            target='_blank'
-            variant='contained'
-          >
-            Upgrade to Pro
-          </Button> */}
-        </Stack>
-      </Box>
     </Scrollbar>
   );
 

@@ -38,11 +38,8 @@ export const DashboardLayout = () => {
       <DashBoardNavBar onOpenSidebar={toggleOpen} open={open} />
       <DashboardSideBar isOpenSidebar={open} onCloseSidebar={toggleOpen} />
       <MainStyle>
-        <Container maxWidth='xl'>
+        <Container maxWidth='xl' sx={{ height: '100%' }}>
           <Outlet />
-          {/* <Page title='Project Board | Manager'>
-            <Outlet />
-          </Page> */}
         </Container>
       </MainStyle>
     </RootStyle>

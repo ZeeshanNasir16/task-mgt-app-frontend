@@ -111,7 +111,9 @@ export const Analytics = () => {
                 <Typography variant='h3' sx={{ fontWeight: 700 }}>
                   24
                 </Typography>
-                <Typography variant='body1'>Tasks Completed</Typography>
+                <Typography variant='body1' component='span'>
+                  Tasks Completed
+                </Typography>
               </div>
               <Box display='content'>
                 <Icon icon={profileOutlined} width={60} height={60} />
@@ -123,7 +125,9 @@ export const Analytics = () => {
                 <Typography variant='h3' sx={{ fontWeight: 700 }}>
                   24
                 </Typography>
-                <Typography variant='body1'>Tasks Remaining</Typography>
+                <Typography variant='body1' component='span'>
+                  Tasks Remaining
+                </Typography>
               </div>
               <Box display='content'>
                 <Icon icon={profileOutlined} width={60} height={60} />

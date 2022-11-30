@@ -9,7 +9,7 @@ import { visuallyHidden } from '@mui/utils';
 
 // ----------------------------------------------------------------------
 
-interface IUserListHeads {
+interface ITableHeadConfig {
   order: 'asc' | 'desc';
   orderBy: string;
   rowCount: number;
@@ -20,18 +20,16 @@ interface IUserListHeads {
   }>;
   numSelected: number;
   onRequestSort: (event: React.MouseEvent<unknown>, property: string) => void;
-  // onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export default function UserListHead({
+export default function TableHeadConfig({
   order,
   orderBy,
   rowCount,
   headLabel,
   numSelected,
   onRequestSort,
-}: // onSelectAllClick,
-IUserListHeads) {
+}: ITableHeadConfig) {
   const createSortHandler =
     (property: string) => (event: React.MouseEvent<unknown>) => {
       onRequestSort(event, property);
@@ -40,17 +38,6 @@ IUserListHeads) {
   return (
     <TableHead>
       <TableRow>
-        <TableCell padding='checkbox'>
-          {/* <Checkbox
-            color='primary'
-            indeterminate={numSelected > 0 && numSelected < rowCount}
-            checked={rowCount > 0 && numSelected === rowCount}
-            onChange={onSelectAllClick}
-            inputProps={{
-              'aria-label': 'select all desserts',
-            }}
-          /> */}
-        </TableCell>
         {headLabel.map((headCell) => (
           <TableCell
             key={headCell.id}
@@ -61,7 +48,6 @@ IUserListHeads) {
               hideSortIcon
               active={orderBy === headCell.id}
               direction={orderBy === headCell.id ? order : 'asc'}
-              // onClick={(e) => console.log('Moue Cickd')}
               onClick={createSortHandler(headCell.id)}
             >
               {headCell.label}

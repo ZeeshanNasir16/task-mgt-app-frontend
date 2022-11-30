@@ -1,4 +1,4 @@
-import { Task } from 'Components/ProjectBoardView/BoardTabs/TaskTable';
+import { Task } from 'Components/Task/TaskTable';
 import React from 'react';
 
 interface ITaskViewDialog {

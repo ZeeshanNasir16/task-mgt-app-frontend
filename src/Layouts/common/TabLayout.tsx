@@ -1,37 +1,6 @@
 import { Box, Tab, Tabs, Typography } from '@mui/material';
+import { TabPanel } from 'Layouts/common/TabLayoutProps';
 import { useState } from 'react';
-
-interface ITabPanel {
-  index: number;
-  value: number;
-  children: JSX.Element;
-}
-
-function TabPanel(props: ITabPanel) {
-  const { children, value, index } = props;
-
-  return (
-    <div
-      role='tabpanel'
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-    >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Typography component='span'>{children}</Typography>
-        </Box>
-      )}
-    </div>
-  );
-}
-
-// function a11yProps(index: number) {
-//   return {
-//     id: `simple-tab-${index}`,
-//     'aria-controls': `simple-tabpanel-${index}`,
-//   };d
-// }
 
 interface ITabProps {
   label: string;
@@ -47,6 +16,7 @@ export const TabLayout = ({ tabs }: ITabLayout) => {
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
+    console.log(value);
   };
 
   return (

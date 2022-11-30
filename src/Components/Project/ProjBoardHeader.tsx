@@ -7,7 +7,7 @@ import {
   Typography,
 } from '@mui/material';
 import { getIcon } from 'Utils/GetIcon';
-import { User } from 'Components/User.interface';
+import {User} from 'Components/User/User.interface';
 import { RndCrndInnerWrapper } from 'Layouts/common/RoundCornInnerWrapper';
 import { RndCrndWrapper } from 'Layouts/common/RoundCornWrapper';
 import React from 'react';

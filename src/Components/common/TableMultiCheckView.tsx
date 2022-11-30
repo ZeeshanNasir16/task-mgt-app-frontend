@@ -37,7 +37,7 @@ const SearchStyle = styled(OutlinedInput)(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-interface IUserListToolbar {
+interface ITableMultiCheckView {
   numSelected: number;
   filterName: string;
   onFilterName: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -45,13 +45,13 @@ interface IUserListToolbar {
   viewLink?: string;
 }
 
-export default function UserListToolbar({
+export default function TableMultiCheckView({
   numSelected,
   filterName,
   onFilterName,
   slug,
   viewLink,
-}: IUserListToolbar) {
+}: ITableMultiCheckView) {
   return (
     <RootStyle
       sx={{

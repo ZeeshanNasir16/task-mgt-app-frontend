@@ -60,11 +60,18 @@ export default function GlobalStyles() {
           lineClamp: 2,
           WebkitBoxOrient: 'vertical',
         },
-        a: { color: theme.palette.primary.main },
+        a: {
+          color: theme.palette.primary.main,
+          textDecoration: 'none ',
+          fontWeight: 600,
+        },
         img: { display: 'block', maxWidth: '100%' },
         '.dispFlexAlgnCentr': {
           display: 'flex',
           alignItems: 'center',
+        },
+        '.cursorPointer': {
+          cursor: 'pointer',
         },
       }}
     />

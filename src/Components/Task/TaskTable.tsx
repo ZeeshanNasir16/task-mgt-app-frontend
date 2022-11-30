@@ -20,13 +20,15 @@ import {
 
 // components
 import Label from 'Components/common/Label';
-import { UserListHead, UserListToolbar, UserMoreMenu } from 'Components/User';
 import SearchNotFound from 'Components/common/SearchNotFound';
 import { ConfirmDialog } from 'Components/dialogs/ConfirmDialog';
 import Page from 'Components/common/Page';
 import Scrollbar from 'Components/common/Scrollbar';
 
 import { tasks as taskList, users } from 'data';
+import TableHeadConfig from 'Components/common/TableHeadConfig';
+import TaskMoreMenu from 'Components/Task/TaskMoreMenu';
+import AddTask from 'Components/dialogs/AddTask';
 
 // import Skeleton from '@material-ui/lab/Skeleton';
 // import Skeleton from 'react-loading-skeleton';
@@ -181,21 +183,24 @@ export const TaskList = () => {
     <Page title='Tasks | Task Manager App'>
       <Stack
         direction='row'
-        alignItems='center'
-        justifyContent='space-between'
-        mb={5}
+        // alignItems='rights'
+        justifyContent='end'
+        my={3}
       >
-        {user && user.role === 'Admin' && (
-          <Button
-            variant='contained'
-            onClick={toggleCreateOpen}
-            startIcon={<Icon icon={plusFill} />}
-          >
-            New Task
-          </Button>
-        )}
+        {/* {user && user.role === 'Admin' && ( */}
+        <Button
+          variant='contained'
+          onClick={toggleCreateOpen}
+          startIcon={<Icon icon={plusFill} />}
+        >
+          New Task
+        </Button>
+        {/* )} */}
       </Stack>
 
+      <AddTask open={isCreateOpen} toggleDialog={toggleCreateOpen} />
+
+      {/* // For multiple item selected (checkbox) */}
       {/* <UserListToolbar
         numSelected={0}
         filterName={filterName}
@@ -206,7 +211,7 @@ export const TaskList = () => {
       <Scrollbar>
         <TableContainer sx={{ minWidth: 800 }}>
           <Table>
-            <UserListHead
+            <TableHeadConfig
               order={order}
               orderBy={orderBy}
               headLabel={TABLE_HEAD}
@@ -218,7 +223,7 @@ export const TaskList = () => {
 
             <TableBody>
               {taskList
-                ? filteredtasks
+                ? taskList
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row: Task) => {
                       const { _id, description, assignedTo, status, deadline } =
@@ -232,12 +237,12 @@ export const TaskList = () => {
                           selected={false}
                           aria-checked={false}
                         >
-                          <TableCell padding='checkbox'>
-                            {/* <Checkbox
+                          {/* <TableCell padding='checkbox'>
+                            <Checkbox
                                   checked={isItemSelected}
                                   onChange={(event) => handleClick(event, name)}
-                                /> */}
-                          </TableCell>
+                                />
+                          </TableCell> */}
                           <TableCell component='th' scope='row' padding='none'>
                             <Stack
                               direction='row'
@@ -290,7 +295,7 @@ export const TaskList = () => {
                           </TableCell>
                           {user && user.role === 'Manager' && (
                             <TableCell align='right'>
-                              <UserMoreMenu
+                              <TaskMoreMenu
                                 currentTask={row}
                                 setSelected={setSelected}
                                 addToTable={!assignedTo}
@@ -318,7 +323,7 @@ export const TaskList = () => {
                           )}
                           {user && user.role === 'Employee' && (
                             <TableCell align='right'>
-                              <UserMoreMenu
+                              <TaskMoreMenu
                                 currentTask={row}
                                 setSelected={setSelected}
                                 toggleEditOpen={toggleEditOpen}
@@ -360,7 +365,7 @@ export const TaskList = () => {
                 </TableRow>
               )}
             </TableBody>
-            {taskList && isUserNotFound && (
+            {/* {taskList && isUserNotFound && (
               <TableBody>
                 <TableRow>
                   <TableCell align='center' colSpan={6} sx={{ py: 3 }}>
@@ -368,7 +373,7 @@ export const TaskList = () => {
                   </TableCell>
                 </TableRow>
               </TableBody>
-            )}
+            )} */}
           </Table>
         </TableContainer>
       </Scrollbar>

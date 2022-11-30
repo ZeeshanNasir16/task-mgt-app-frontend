@@ -34,7 +34,7 @@ export const Overview = (props: IOverview) => {
       <Typography variant='subtitle1' gutterBottom={true} mt={2}>
         Summary
       </Typography>
-      <Typography variant='body1' gutterBottom={true} mt={1}>
+      <Typography variant='body1' component='span' gutterBottom={true} mt={1}>
         {loremlong}
       </Typography>
 
