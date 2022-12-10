@@ -24,8 +24,6 @@ const FileWrapperLayout = styled('div')((theme) => ({
   gap: '1rem',
 }));
 
-const TimeLineCnt = <></>;
-
 export const Overview = (props: IOverview) => {
   const { projFiles } = props;
 

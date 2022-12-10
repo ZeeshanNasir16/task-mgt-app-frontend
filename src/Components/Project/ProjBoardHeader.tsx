@@ -7,12 +7,22 @@ import {
   Typography,
 } from '@mui/material';
 import { getIcon } from 'Utils/GetIcon';
-import {User} from 'Components/User/User.interface';
+import { User } from 'Components/User/User.interface';
 import { RndCrndInnerWrapper } from 'Layouts/common/RoundCornInnerWrapper';
 import { RndCrndWrapper } from 'Layouts/common/RoundCornWrapper';
-import React from 'react';
+import React, { useState } from 'react';
 import moreVerticalFill from '@iconify/icons-eva/more-vertical-fill';
 import formOutlined from '@iconify/icons-ant-design/form-outlined';
+import fieldTimeOutlined from '@iconify/icons-ant-design/field-time-outlined';
+import dashboardOutlined from '@iconify/icons-ant-design/dashboard-outlined';
+import ProjectFormDialog from 'Components/dialogs/ProjectFormDialog';
+import { Project_DB } from 'interfaces/Project';
+import { dateFormat } from 'Utils/Date';
+
+import closeCircleOutlined from '@iconify/icons-ant-design/close-circle-outlined';
+import ConfirmDialog from 'Components/dialogs/ConfirmDialog';
+import { useAppDispatch } from 'store/hooks';
+import { deleteProj } from 'store/slices/projects/extraReducers';
 
 const ProjHeadDetails = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -30,14 +40,33 @@ const UserAvatarSize = {
 };
 
 interface ProjBoardHeadProps {
-  projTitle: string;
-  teamMembers: User[];
-  createdOn: string;
+  project: Project_DB;
   viewer: 'user' | 'manager' | 'admin';
 }
 
 export const ProjBoardHeader = (props: ProjBoardHeadProps) => {
-  const { projTitle, teamMembers, createdOn, viewer } = props;
+  const { project } = props;
+
+  const [editFormDialog, setEditFormDialog] = useState(false);
+  const [deleteFormDialog, setDeleteFormDialog] = useState(false);
+
+  const dispatch = useAppDispatch();
+
+  const toggleDelFormDialog: any = () => {
+    setDeleteFormDialog((st) => !st);
+  };
+  const toggleDialog: any = () => {
+    setEditFormDialog((st) => !st);
+  };
+
+  const handleConfirmDel = () => {
+    dispatch(deleteProj(project._id));
+  };
+
+  React.useEffect(() => {
+    return;
+  }, []);
+
   return (
     <RndCrndInnerWrapper>
       <Box>
@@ -50,17 +79,40 @@ export const ProjBoardHeader = (props: ProjBoardHeadProps) => {
               marginBottom: '0.5rem !important',
             }}
           >
-            {projTitle}
+            {project.title}
           </Typography>
           <Box sx={{ display: 'content' }}>
-            <IconButton sx={{ display: 'content' }}>
+            <IconButton
+              sx={{ display: 'content' }}
+              color='error'
+              onClick={toggleDelFormDialog}
+            >
+              {getIcon(closeCircleOutlined)}
+            </IconButton>
+
+            <IconButton
+              sx={{ display: 'content' }}
+              color='info'
+              onClick={toggleDialog}
+            >
               {getIcon(formOutlined)}
             </IconButton>
           </Box>
         </Box>
         <ProjHeadDetails>
-          <Typography variant='subtitle1'>{createdOn}</Typography>
-          <AvatarGroup
+          <Box>
+            <Typography variant='subtitle2' color='text.secondary'>
+              {`Start Date :   ${dateFormat(project.startDate, 'MM-dd-yyyy')}`}
+            </Typography>
+            <Typography variant='subtitle2' color='text.secondary'>
+              {`Deadline Date :   ${dateFormat(
+                project.deadlineDate,
+                'MM-dd-yyyy'
+              )}`}
+            </Typography>
+          </Box>
+
+          {/* <AvatarGroup
             max={4}
             {...UserAvatarSize}
             sx={{
@@ -77,9 +129,20 @@ export const ProjBoardHeader = (props: ProjBoardHeadProps) => {
                 src={el.image}
               />
             ))}
-          </AvatarGroup>
+          </AvatarGroup> */}
         </ProjHeadDetails>
       </Box>
+      <ConfirmDialog
+        open={deleteFormDialog}
+        toggleDialog={toggleDelFormDialog}
+        description='Deleting project will permanently remove it'
+        confirmAction={handleConfirmDel}
+      />
+      <ProjectFormDialog
+        open={editFormDialog}
+        toggleDialog={toggleDialog}
+        update={project}
+      />
     </RndCrndInnerWrapper>
   );
 };

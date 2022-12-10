@@ -27,6 +27,7 @@ export const Logo = (props: ILogo) => {
       sx={{ fontWeight: 800 }}
       color='primary'
       align={props.align}
+      component='span'
     >
       Manage.
     </Typography>

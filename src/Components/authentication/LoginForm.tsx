@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { useFormik, Form, FormikProvider } from 'formik';
 import { Icon } from '@iconify/react';
@@ -12,25 +12,17 @@ import {
   InputAdornment,
   Link,
   Stack,
-  styled,
   TextField,
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-// material
-// import {
-//   Link,
-//   Stack,
-//   Checkbox,
-//   TextField,
-//   IconButton,
-//   InputAdornment,
-//   FormControlLabel,
-// } from '@material-ui/core';
-// import { LoadingButton } from '@material-ui/lab';
+import { login } from 'store/slices/auth/extraReducers';
+import { useAppDispatch, useAppSelector } from 'store/hooks';
 
 // ----------------------------------------------------------------------
 
 export default function LoginForm() {
+  const { loading } = useAppSelector((st) => st.auth);
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 
@@ -41,15 +33,21 @@ export default function LoginForm() {
     password: Yup.string().required('Password is required'),
   });
 
-  const formik = useFormik({
+  useEffect(() => {
+    formik.setSubmitting(loading);
+  }, [loading]);
+
+  const formik: any = useFormik({
     initialValues: {
       email: '',
       password: '',
-      remember: true,
+      // remember: true,
     },
     validationSchema: LoginSchema,
     onSubmit: () => {
-      navigate('/', { replace: true });
+      dispatch(login({ ...formik.values })).then(() =>
+        navigate('/', { replace: true })
+      );
     },
   });
 
@@ -66,7 +64,7 @@ export default function LoginForm() {
         <Stack spacing={3}>
           <TextField
             fullWidth
-            autoComplete='username'
+            autoComplete='email'
             type='email'
             label='Email address'
             {...getFieldProps('email')}

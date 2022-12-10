@@ -1,16 +1,16 @@
 import { alpha, Box, styled, SxProps, Theme, Typography } from '@mui/material';
 import React from 'react';
 
-const BoardColmn = styled('div')(({ theme }) => ({
+const BoardColmn = styled(Box)(({ theme }) => ({
   display: 'flex',
   // justifyContent: 'center',
   flexDirection: 'column',
-  padding: '0.5rem',
+  padding: '0.75rem',
   borderRadius: 6,
   gap: '1rem',
-  border: `1px dashed ${alpha('#919EAB', 0.24)}`,
-  minWidth: 200,
-  maxWidth: 240,
+  border: `1px dashed ${alpha('#637381', 0.24)}`,
+  minWidth: 220,
+  maxWidth: 280,
   height: '100%',
 }));
 
@@ -27,12 +27,13 @@ interface ITaskBoardColumn {
   sx?: SxProps<Theme> | undefined;
   children: React.ReactElement | React.ReactElement[];
   headerTitle: string;
+  boardBg: string;
 }
 
 export const TaskBoardColumn = (props: ITaskBoardColumn) => {
-  const { children, sx, headerTitle } = props;
+  const { children, sx, headerTitle, boardBg } = props;
   return (
-    <BoardColmn className='boardCol'>
+    <BoardColmn sx={{ backgroundColor: boardBg }}>
       <BoardColHeader
         className='dispFlexAlgnCentr'
         sx={{

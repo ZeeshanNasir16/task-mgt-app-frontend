@@ -1,11 +1,14 @@
 import { Box, Button, styled } from '@mui/material';
 import Page from 'Components/common/Page';
-import AddProject from 'Components/dialogs/AddProject';
+import ProjectFormDialog from 'Components/dialogs/ProjectFormDialog';
 import ProjectCard from 'Components/Project/ProjectCard';
+import NewProjCard from 'Components/Project/ProjectCard/NewProjCard';
+import { Project_DB } from 'interfaces/Project';
 import { RndCrndWrapper } from 'Layouts/common/RoundCornWrapper';
 import { TabLayout } from 'Layouts/common/TabLayout';
 import { WrapperHeader } from 'Layouts/common/WrapperHeader';
 import React, { useState } from 'react';
+import { useAppSelector } from 'store/hooks';
 
 type Props = {};
 
@@ -18,14 +21,15 @@ const ListRoot = styled('div')(({ theme }) => ({
   flexWrap: 'wrap',
 }));
 
-const AddNewProjBtn = styled(Button)(({ theme }) => ({
-  top: 10,
-  right: 10,
-  position: 'absolute',
-}));
+// const AddNewProjBtn = styled(Button)(({ theme }) => ({
+//   top: 10,
+//   right: 10,
+//   position: 'absolute',
+// }));
 
 const ProjectList = (props: Props) => {
   const [newProjDialog, setNewProjDialog] = useState(false);
+  const { projects, loading } = useAppSelector((st) => st.proj);
 
   const toggleDialog = () => {
     setNewProjDialog((st) => !st);
@@ -36,12 +40,16 @@ const ProjectList = (props: Props) => {
       label: 'In Progress',
       Component: (
         <ListRoot>
-          <ProjectCard />
-          <ProjectCard />
-          <ProjectCard />
-          <ProjectCard />
-          <ProjectCard />
-          <ProjectCard />
+          {!loading && (
+            <React.Fragment>
+              <NewProjCard handleClick={toggleDialog} />
+              {projects &&
+                projects.length > 0 &&
+                projects.map((el: any) => (
+                  <ProjectCard key={el._id} projDetails={el} />
+                ))}
+            </React.Fragment>
+          )}
         </ListRoot>
       ),
     },
@@ -49,8 +57,8 @@ const ProjectList = (props: Props) => {
       label: 'Completed',
       Component: (
         <ListRoot>
-          <ProjectCard />
-          <ProjectCard />
+          {/* <ProjectCard />
+          <ProjectCard /> */}
         </ListRoot>
       ),
     },
@@ -60,7 +68,7 @@ const ProjectList = (props: Props) => {
     <Page title='Workspace | Manager'>
       <Box display='flex' justifyContent='space-between' py={1}>
         <WrapperHeader heading='Projects' />
-        <Button
+        {/* <Button
           variant='contained'
           color='primary'
           size='small'
@@ -68,14 +76,14 @@ const ProjectList = (props: Props) => {
           onClick={toggleDialog}
         >
           New Project
-        </Button>
+        </Button> */}
       </Box>
 
       <RndCrndWrapper>
         <TabLayout tabs={Tabs} />
       </RndCrndWrapper>
 
-      <AddProject open={newProjDialog} toggleDialog={toggleDialog} />
+      <ProjectFormDialog open={newProjDialog} toggleDialog={toggleDialog} />
     </Page>
   );
 };

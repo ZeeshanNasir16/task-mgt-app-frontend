@@ -1,8 +1,9 @@
-import { Task } from 'Components/Task/TaskTable';
+// import { Task } from 'Components/Task/TaskTable';
+import { Task_DB } from 'interfaces/Task';
 import React from 'react';
 
 interface ITaskViewDialog {
-  task: Task;
+  task: Task_DB;
   open: boolean;
 }
 

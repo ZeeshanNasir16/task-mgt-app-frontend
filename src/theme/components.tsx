@@ -9,7 +9,7 @@ const components = {
   MuiDialogContent: {
     styleOverrides: {
       root: {
-        padding: '16px 24px',
+        padding: '24px 24px',
       },
     },
   },

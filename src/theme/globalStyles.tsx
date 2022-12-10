@@ -13,12 +13,29 @@ export default function GlobalStyles() {
           margin: 0,
           padding: 0,
           boxSizing: 'border-box',
+          '&::-webkit-scrollbar': {
+            width: 5,
+            borderRadius: 10,
+          },
+
+          '&::-webkit-scrollbar-track': {
+            background: '#f1f1f1',
+          },
+          /* Handle */
+          '&::-webkit-scrollbar-thumb': {
+            background: '#C4CDD5',
+          },
+
+          /* Handle on hover */
+          '&::-webkit-scrollbar-thumb:hover': {
+            background: '#454F5B',
+          },
         },
         html: {
           width: '100%',
           height: '100%',
-          '-ms-text-size-adjust': '100%',
-          '-webkit-overflow-scrolling': 'touch',
+          // '-ms-text-size-adjust': '100%',
+          // '-webkit-overflow-scrolling': 'touch',
         },
         body: {
           width: '100%',

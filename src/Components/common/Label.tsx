@@ -17,9 +17,9 @@ interface IStyleProps {
   variant: 'filled' | 'outlined' | 'ghost';
 }
 
-interface IRootStyleProps {
-  styleProps: IStyleProps;
-}
+// interface IRootStyleProps {
+//   styleProps: IStyleProps;
+// }
 
 // const RootStyle = styled('span')((theme, props: IRootStyleProps) => {
 //   const { color, variant } = props;
@@ -93,7 +93,7 @@ export default function Label({
     // <RootStyle styleProps={{ color, variant }} {...other}>
     //   {children}
     // </RootStyle>
-    <div></div>
+    <></>
   );
 }
 

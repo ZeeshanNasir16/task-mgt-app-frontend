@@ -119,18 +119,14 @@ export const activity = [...Array(5)].map((_, ind) => ({
 }));
 
 export const tasks = [...Array(5)].map((_, ind) => ({
-  _id: faker.datatype.uuid(),
-  description: faker.lorem.words(3),
-  assignedTo: {
-    _id: faker.datatype.uuid(),
-    name: faker.name.fullName(),
-    image: `/Assets/user_${ind + 1}.jpg`,
-  },
-  deadline: faker.date.future(0).toLocaleDateString([], {
+  id: faker.datatype.uuid(),
+  title: faker.lorem.words(2),
+  description: faker.lorem.lines(1),
+  deadLine: faker.date.future(0).toLocaleDateString([], {
     month: 'short',
     day: '2-digit',
   }),
-  status: 'In-Progress',
+  status: 'completed',
 }));
 
 export const employees = [...Array(5)].map((_, ind) => ({

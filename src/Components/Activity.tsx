@@ -12,7 +12,7 @@ export interface IActivity {
   body: string;
 }
 
-const Wrapper = styled('div')((theme) => ({
+const Wrapper = styled('div')(() => ({
   display: 'flex',
   flexDirection: 'row',
   alignItems: 'start',

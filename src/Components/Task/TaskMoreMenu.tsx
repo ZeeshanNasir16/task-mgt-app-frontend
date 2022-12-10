@@ -1,11 +1,8 @@
 import { Icon } from '@iconify/react';
 import { useRef, useState } from 'react';
 import editFill from '@iconify/icons-eva/edit-fill';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import trash2Outline from '@iconify/icons-eva/trash-2-outline';
 import moreVerticalFill from '@iconify/icons-eva/more-vertical-fill';
-import plusFill from '@iconify/icons-eva/plus-fill';
-import minusFill from '@iconify/icons-eva/minus-fill';
 import {
   IconButton,
   Menu,
@@ -13,70 +10,51 @@ import {
   ListItemIcon,
   ListItemText,
 } from '@mui/material';
-import { Task } from 'Components/Task/TaskTable';
-// import AssignmentIcon from '@material-ui/icons/Assignment';
-// material
-// import {
-//   Menu,
-//   MenuItem,
-//   IconButton,
-//   ListItemIcon,
-//   ListItemText,
-//   Button,
-// } from '@material-ui/core';
+import { Task_DB } from 'interfaces/Task';
+import TaskFormDialog from 'Components/dialogs/TaskFormDialog';
+import ConfirmDialog from 'Components/dialogs/ConfirmDialog';
+import { useAppDispatch } from 'store/hooks';
+import { deleteTask } from 'store/slices/tasks/extraReducers';
 
 // ----------------------------------------------------------------------
 
 interface ITaskMoreMenu {
-  currentTask: Task;
-  setSelected: React.Dispatch<React.SetStateAction<Task | undefined>>;
-  viewLink: string;
-  viewTask: boolean;
-  toggleDelOpen?: () => void | undefined;
-  toggleEditOpen?: () => void | undefined;
-  toggleAddToOpen?: () => void | undefined;
-  addToSlug?: string;
-  removeFromTable?: boolean;
-  handleRemoveFrom?: () => void | undefined;
-  removeFromSlug?: string;
-  addToTable?: boolean;
-  noDelete?: boolean;
-  noEdit?: boolean;
+  currentTask: Task_DB;
+  projectId: string;
+  managerId: string;
 }
 
 export default function TaskMoreMenu({
   currentTask,
-  setSelected,
-  toggleDelOpen,
-  toggleEditOpen,
-  addToTable,
-  toggleAddToOpen,
-  addToSlug,
-  removeFromTable,
-  handleRemoveFrom,
-  removeFromSlug,
-  noDelete,
-  noEdit,
-  viewTask,
-  viewLink,
+  projectId,
+  managerId,
 }: ITaskMoreMenu) {
-  const navigate = useNavigate();
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [updTaskDialog, setUpdTaskDialog] = useState<boolean>(false);
+  const [dialogOpen, setDialogOpen] = useState<boolean>(false);
+
+  const dispatch = useAppDispatch();
+
+  const handleToggleForm = () => {
+    setDialogOpen((st) => !st);
+  };
 
   const handleDelete = () => {
-    setSelected(currentTask);
     setIsOpen(false);
-    // toggleDelOpen();
+    setDialogOpen((st) => !st);
+
+    dispatch(deleteTask(currentTask._id));
   };
   const handleEdit = () => {
-    setSelected(currentTask);
     setIsOpen(false);
-    // toggleEditOpen();
+    setUpdTaskDialog((st) => !st);
   };
-  const handleAddTo = () => {
-    setIsOpen(false);
-    // toggleAddToOpen();
+
+  const dialogProps = {
+    open: updTaskDialog,
+    toggleDialog: handleToggleForm,
+    update: currentTask,
   };
 
   return (
@@ -84,7 +62,6 @@ export default function TaskMoreMenu({
       <IconButton ref={ref} onClick={() => setIsOpen(true)}>
         <Icon icon={moreVerticalFill} width={20} height={20} />
       </IconButton>
-
       <Menu
         open={isOpen}
         anchorEl={ref.current}
@@ -95,71 +72,36 @@ export default function TaskMoreMenu({
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
-        {!noDelete && (
-          <MenuItem sx={{ color: 'text.secondary' }} onClick={handleDelete}>
-            <ListItemIcon>
-              <Icon icon={trash2Outline} width={24} height={24} />
-            </ListItemIcon>
-            <ListItemText
-              primary='Delete'
-              primaryTypographyProps={{ variant: 'body2' }}
-            />
-          </MenuItem>
-        )}
-        {!noEdit && (
-          <MenuItem sx={{ color: 'text.secondary' }} onClick={handleEdit}>
-            <ListItemIcon>
-              <Icon icon={editFill} width={24} height={24} />
-            </ListItemIcon>
-            <ListItemText
-              primary='Edit'
-              primaryTypographyProps={{ variant: 'body2' }}
-            />
-          </MenuItem>
-        )}
-        {addToTable && (
-          <MenuItem sx={{ color: 'text.secondary' }} onClick={handleAddTo}>
-            <ListItemIcon>
-              <Icon icon={plusFill} width={24} height={24} />
-            </ListItemIcon>
-            <ListItemText
-              primary={addToSlug}
-              primaryTypographyProps={{ variant: 'body2' }}
-            />
-          </MenuItem>
-        )}
-        {removeFromTable && (
-          <MenuItem
-            sx={{ color: 'text.secondary' }}
-            onClick={() => {
-              setIsOpen(false);
-              // handleRemoveFrom();
-            }}
-          >
-            <ListItemIcon>
-              <Icon icon={minusFill} width={24} height={24} />
-            </ListItemIcon>
-            <ListItemText
-              primary={removeFromSlug}
-              primaryTypographyProps={{ variant: 'body2' }}
-            />
-          </MenuItem>
-        )}
-        {viewTask && (
-          <MenuItem
-            sx={{ color: 'text.secondary' }}
-            onClick={() => navigate(viewLink, { replace: true })}
-          >
-            {/* <ListItemIcon>
-              <AssignmentIcon />
-            </ListItemIcon> */}
-            <ListItemText
-              primary='View Task'
-              primaryTypographyProps={{ variant: 'body2' }}
-            />
-          </MenuItem>
-        )}
+        <MenuItem sx={{ color: 'text.secondary' }} onClick={handleEdit}>
+          <ListItemIcon>
+            <Icon icon={editFill} width={24} height={24} />
+          </ListItemIcon>
+          <ListItemText
+            primary='Edit'
+            primaryTypographyProps={{ variant: 'body2' }}
+          />
+        </MenuItem>
+        <MenuItem sx={{ color: 'text.secondary' }} onClick={handleDelete}>
+          <ListItemIcon>
+            <Icon icon={trash2Outline} width={24} height={24} />
+          </ListItemIcon>
+          <ListItemText
+            primary='Delete'
+            primaryTypographyProps={{ variant: 'body2' }}
+          />
+        </MenuItem>
       </Menu>
+      <TaskFormDialog
+        dialogProps={dialogProps}
+        managerId={managerId}
+        projectId={projectId}
+      />
+      <ConfirmDialog
+        open={dialogOpen}
+        toggleDialog={handleToggleForm}
+        description='Are you sure you want to delete ?'
+        confirmAction={handleDelete}
+      />
     </>
   );
 }

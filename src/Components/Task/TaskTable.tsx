@@ -1,12 +1,13 @@
 import { Icon } from '@iconify/react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import plusFill from '@iconify/icons-eva/plus-fill';
 
 import {
+  Avatar,
+  Box,
   Button,
-  Card,
   Chip,
-  Container,
+  Divider,
   Skeleton,
   Stack,
   Table,
@@ -19,23 +20,19 @@ import {
 } from '@mui/material';
 
 // components
-import Label from 'Components/common/Label';
-import SearchNotFound from 'Components/common/SearchNotFound';
-import { ConfirmDialog } from 'Components/dialogs/ConfirmDialog';
+// import Label from 'Components/common/Label';
+// import SearchNotFound from 'Components/common/SearchNotFound';
 import Page from 'Components/common/Page';
 import Scrollbar from 'Components/common/Scrollbar';
 
-import { tasks as taskList, users } from 'data';
 import TableHeadConfig from 'Components/common/TableHeadConfig';
 import TaskMoreMenu from 'Components/Task/TaskMoreMenu';
-import AddTask from 'Components/dialogs/AddTask';
+import TaskFormDialog from 'Components/dialogs/TaskFormDialog';
+import { useAppSelector } from 'store/hooks';
+import { Task_DB } from 'interfaces/Task';
+import { dateFormat } from 'Utils/Date';
 
-// import Skeleton from '@material-ui/lab/Skeleton';
 // import Skeleton from 'react-loading-skeleton';
-// import AddToTableModal from 'dialogs/AddToManagerModal';
-// import AddToGroupModal from 'dialogs/AddToGroupModal';
-
-// import AddorEditModal from 'dialogs/AddorEditModal';
 // import Label from 'components/Label';
 
 // ----------------------------------------------------------------------
@@ -49,18 +46,17 @@ export interface Task {
 }
 
 interface ITable_Head {
-  id: string;
+  id: keyof Task_DB;
   label: string;
   alignRight?: boolean | false;
 }
 
 const TABLE_HEAD: ITable_Head[] = [
-  { id: 'name', label: 'Name', alignRight: false },
-  { id: 'description', label: 'Description', alignRight: false },
+  { id: 'title', label: 'Name', alignRight: false },
   { id: 'assignedTo', label: 'Assigned To', alignRight: false },
   { id: 'status', label: 'Status', alignRight: false },
-  { id: 'deadline', label: 'Deadline', alignRight: false },
-  { id: 'options', label: '' },
+  { id: 'deadLine', label: 'Deadline', alignRight: false },
+  { id: '_id', label: '' },
 ];
 
 // ----------------------------------------------------------------------
@@ -104,22 +100,27 @@ function applySortFilter<T>(
   return stabilizedThis.map((el) => el[0]);
 }
 
-export const TaskList = () => {
-  const user = users['manager'];
-  const [filteredtasks, setFilteredtasks] = useState([]);
+interface IProps {
+  projectId: string;
+  managerId: string;
+}
+
+const TaskTable = (props: IProps) => {
+  const { user } = useAppSelector((st) => st.auth);
+  // const { tasks, loading } = useAppSelector((st) => st.tasks);
+  const taskStore = useAppSelector((st) => ({
+    tasks: st.tasks.tasks.filter(
+      (el: Task_DB) => el.project === props.projectId
+    ),
+    loading: st.tasks.loading,
+  }));
+
+  // const [filteredtasks, setFilteredtasks] = useState<any>([]);
   const [page, setPage] = useState<number>(0);
   const [order, setOrder] = useState<'asc' | 'desc'>('asc');
-  const [selected, setSelected] = useState<Task>();
-  const [selectedTask, setSelectedTask] = useState<string>();
   const [orderBy, setOrderBy] = useState<string>('name');
-  const [isDelOpen, setIsDelOpen] = useState<boolean>(false);
-  const [isEditOpen, setIsEditOpen] = useState<boolean>(false);
   const [isCreateOpen, setIsCreateOpen] = useState<boolean>(false);
-  const [isAddToOpen, setIsAddToOpen] = useState<boolean>(false);
-  const [isRemoveFromOpen, setIsRemoveFromOpen] = useState<boolean>(false);
-  const [isAddToOpen2, setIsAddToOpen2] = useState<boolean>(false);
-  const [isRemoveFromOpen2, setIsRemoveFromOpen2] = useState<boolean>(false);
-  const [filterName, setFilterName] = useState<string>('');
+  // const [filterName, setFilterName] = useState<string>('');
   const [rowsPerPage, setRowsPerPage] = useState<number>(5);
 
   const handleRequestSort = (
@@ -131,13 +132,7 @@ export const TaskList = () => {
     setOrderBy(property);
   };
 
-  const toggleDelOpen = () => setIsDelOpen((st) => !st);
-  const toggleEditOpen = () => setIsEditOpen((st) => !st);
   const toggleCreateOpen = () => setIsCreateOpen((st) => !st);
-  // const toggleAddToOpen = () => setIsAddToOpen((st) => !st);
-  // const toggleRemoveFromOpen = () => setIsRemoveFromOpen((st) => !st);
-  const toggleAddToOpen2 = () => setIsAddToOpen2((st) => !st);
-  // const toggleRemoveFromOpen2 = () => setIsRemoveFromOpen2((st) => !st);
 
   const handleChangePage = (
     _e: React.MouseEvent<HTMLButtonElement, MouseEvent> | null,
@@ -151,43 +146,42 @@ export const TaskList = () => {
     setPage(0);
   };
 
-  const handleFilterByName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFilterName(e.target.value);
-  };
+  // const handleFilterByName = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   setFilterName(e.target.value);
+  // };
 
   const emptyRows =
-    page > 0 && taskList
-      ? Math.max(0, (1 + page) * rowsPerPage - taskList.length)
+    page > 0 && taskStore.tasks
+      ? Math.max(0, (1 + page) * rowsPerPage - taskStore.tasks.length)
       : 0;
 
-  const isUserNotFound = filteredtasks.length === 0;
+  // const isUserNotFound = filteredtasks.length === 0;
 
   // useEffect(() => {
-  //   if (!taskList || taskList === null) return;
-  //   setFilteredtasks(
-  //     applySortFilter(taskList, getComparator(order, orderBy), filterName)
-  //   );
-  // }, [taskList, order, orderBy, filterName]);
+  //   if (!taskStore.tasks || taskStore.tasks === null) return;
+  //   taskStore.tasks.length > 0 &&
+  //     setFilteredtasks(applySortFilter(taskStore.tasks, getComparator(order, orderBy)));
+  // }, [taskStore.tasks, order, orderBy]);
 
-  const handleDelete = () => {
-    // deleteTask(selected, toggleDelOpen);
-    console.log('Delete Task');
-  };
-
-  const getFormattedDate = (date: string) => {
-    const dt = new Date(date);
-    return dt.toDateString();
+  const dialogProps = {
+    open: isCreateOpen,
+    toggleDialog: toggleCreateOpen,
   };
 
   return (
     <Page title='Tasks | Task Manager App'>
+      <Box my={5}>
+        <Divider />
+      </Box>
       <Stack
         direction='row'
-        // alignItems='rights'
-        justifyContent='end'
+        alignItems='center'
+        justifyContent='space-between'
         my={3}
       >
         {/* {user && user.role === 'Admin' && ( */}
+
+        <Typography variant='h5'>Tasks</Typography>
         <Button
           variant='contained'
           onClick={toggleCreateOpen}
@@ -197,16 +191,11 @@ export const TaskList = () => {
         </Button>
         {/* )} */}
       </Stack>
-
-      <AddTask open={isCreateOpen} toggleDialog={toggleCreateOpen} />
-
-      {/* // For multiple item selected (checkbox) */}
-      {/* <UserListToolbar
-        numSelected={0}
-        filterName={filterName}
-        onFilterName={handleFilterByName}
-        slug='Tasks'
-      /> */}
+      <TaskFormDialog
+        dialogProps={dialogProps}
+        managerId={props.managerId}
+        projectId={props.projectId}
+      />
 
       <Scrollbar>
         <TableContainer sx={{ minWidth: 800 }}>
@@ -215,19 +204,27 @@ export const TaskList = () => {
               order={order}
               orderBy={orderBy}
               headLabel={TABLE_HEAD}
-              rowCount={taskList ? taskList.length : 0}
+              rowCount={taskStore.tasks ? taskStore.tasks.length : 0}
               numSelected={0}
               onRequestSort={handleRequestSort}
               // onSelectAllClick={handleSelectAllClick}
             />
 
             <TableBody>
-              {taskList
-                ? taskList
+              {!taskStore.loading
+                ? taskStore.tasks
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map((row: Task) => {
-                      const { _id, description, assignedTo, status, deadline } =
-                        row;
+                    .map((row: Task_DB) => {
+                      const {
+                        _id,
+                        title,
+                        assignedTo,
+                        status,
+                        deadLine,
+                        assignedBy,
+                        project,
+                      } = row;
+
                       return (
                         <TableRow
                           hover
@@ -237,52 +234,64 @@ export const TaskList = () => {
                           selected={false}
                           aria-checked={false}
                         >
-                          {/* <TableCell padding='checkbox'>
-                            <Checkbox
-                                  checked={isItemSelected}
-                                  onChange={(event) => handleClick(event, name)}
-                                />
-                          </TableCell> */}
                           <TableCell component='th' scope='row' padding='none'>
                             <Stack
                               direction='row'
                               alignItems='center'
                               spacing={2}
                             >
-                              {/* <Avatar
-                                    alt={name}
-                                    src={`https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=${name
-                                      .split(' ')
-                                      .join('%20')}`}
-                                  /> */}
                               <Typography variant='subtitle2' noWrap>
-                                {description}
+                                {title}
                               </Typography>
                             </Stack>
                           </TableCell>
-                          <TableCell align='left'>{description}</TableCell>
-                          <TableCell align='left'>
-                            {assignedTo ? (
-                              assignedTo.name
+                          <TableCell>
+                            {!!assignedTo && assignedTo.user ? (
+                              <Box
+                                display='flex'
+                                flexWrap='nowrap'
+                                alignItems='center'
+                                gap={1}
+                              >
+                                <Avatar
+                                  key={assignedTo.user._id}
+                                  sx={{ width: 25, height: 25 }}
+                                  alt={assignedTo.user.firstName}
+                                  src={`https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=${assignedTo.user?.firstName} ${assignedTo.user?.lastName}`}
+                                />
+                                <Typography variant='body2'>
+                                  {assignedTo.user.firstName}{' '}
+                                  {assignedTo.user.lastName}
+                                </Typography>
+                              </Box>
                             ) : (
-                              <Chip label='Not Assigned' variant='outlined' />
-
-                              // <Label variant='ghost' color='error'>
-                              //   Not Assigned
-                              // </Label>
+                              <Chip
+                                label='Not Assigned'
+                                variant='outlined'
+                                color='error'
+                              />
                             )}
                           </TableCell>
                           <TableCell align='left'>
-                            {status === 'In-Progress' ? (
+                            {status === 'todo' ? (
                               <Chip
-                                label='In Progress'
+                                label='Todo'
+                                variant='outlined'
+                                color='default'
+                              />
+                            ) : status === 'inProgress' ? (
+                              <Chip
+                                label={status}
                                 variant='outlined'
                                 color='warning'
                               />
+                            ) : status === 'review' ? (
+                              <Chip
+                                label={status}
+                                variant='outlined'
+                                color='info'
+                              />
                             ) : (
-                              // <Label variant='ghost' color='warning'>
-                              //   {status}
-                              // </Label>
                               <Chip
                                 label={status}
                                 variant='outlined'
@@ -291,56 +300,26 @@ export const TaskList = () => {
                             )}
                           </TableCell>
                           <TableCell align='left'>
-                            {deadline && getFormattedDate(deadline)}
+                            {deadLine && dateFormat(deadLine, 'MM-dd-yyyy')}
                           </TableCell>
-                          {user && user.role === 'Manager' && (
-                            <TableCell align='right'>
-                              <TaskMoreMenu
-                                currentTask={row}
-                                setSelected={setSelected}
-                                addToTable={!assignedTo}
-                                toggleAddToOpen={() => {
-                                  setSelectedTask(_id);
-                                  toggleAddToOpen2();
-                                }}
-                                viewTask
-                                viewLink={`/dashboard/tasks/${_id}`}
-                                addToSlug='Assign to Group'
-                                removeFromTable={
-                                  assignedTo && status !== 'complete'
-                                }
-                                handleRemoveFrom={() => {
-                                  const assignedToId =
-                                    assignedTo && assignedTo._id
-                                      ? assignedTo._id
-                                      : assignedTo;
-                                  console.log(assignedToId);
-                                  // unAssignTaskFromGroup(_id, assignedToId);
-                                }}
-                                removeFromSlug='UnAssign'
-                              />
-                            </TableCell>
-                          )}
-                          {user && user.role === 'Employee' && (
-                            <TableCell align='right'>
-                              <TaskMoreMenu
-                                currentTask={row}
-                                setSelected={setSelected}
-                                toggleEditOpen={toggleEditOpen}
-                                noDelete
-                                noEdit
-                                viewTask
-                                viewLink={`/dashboard/tasks/${_id}`}
-                              />
-                            </TableCell>
-                          )}
+                          {user &&
+                            (user.role === 'manager' ||
+                              user.role === 'admin') && (
+                              <TableCell align='right'>
+                                <TaskMoreMenu
+                                  managerId={assignedBy._id}
+                                  projectId={project}
+                                  currentTask={row}
+                                />
+                              </TableCell>
+                            )}
                         </TableRow>
                       );
                     })
                 : Array<any>(5)
                     .fill('')
-                    .map(() => (
-                      <TableRow>
+                    .map((_, ind) => (
+                      <TableRow key={`task-table-${ind}`}>
                         <TableCell></TableCell>
                         <TableCell>
                           <Skeleton />
@@ -365,7 +344,7 @@ export const TaskList = () => {
                 </TableRow>
               )}
             </TableBody>
-            {/* {taskList && isUserNotFound && (
+            {/* {tasks && isUserNotFound && (
               <TableBody>
                 <TableRow>
                   <TableCell align='center' colSpan={6} sx={{ py: 3 }}>
@@ -374,6 +353,17 @@ export const TaskList = () => {
                 </TableRow>
               </TableBody>
             )} */}
+            {taskStore.tasks.length === 0 && (
+              <TableBody>
+                <TableRow>
+                  <TableCell align='center' colSpan={4} sx={{ py: 3 }}>
+                    <Typography variant='h5' align='center'>
+                      Nothing to show
+                    </Typography>
+                  </TableCell>
+                </TableRow>
+              </TableBody>
+            )}
           </Table>
         </TableContainer>
       </Scrollbar>
@@ -381,74 +371,14 @@ export const TaskList = () => {
       <TablePagination
         rowsPerPageOptions={[5, 10, 25]}
         component='div'
-        count={taskList ? taskList.length : 0}
+        count={taskStore.tasks ? taskStore.tasks.length : 0}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
-
-      <ConfirmDialog
-        open={isDelOpen}
-        toggleDialog={toggleDelOpen}
-        dialogTitle='Delete This Task ?'
-        confirmDelete={handleDelete}
-      />
-      {/* <AddorEditModal
-        isOpen={isCreateOpen}
-        closeDialog={toggleCreateOpen}
-        createNew={(...props) => {
-          addNewTask(...props, toggleCreateOpen);
-        }}
-        role='Task'
-      /> */}
-      {/* <AddorEditModal
-        isOpen={isEditOpen}
-        closeDialog={toggleEditOpen}
-        updateUser={(...props) => {
-          updateTask(...props, toggleEditOpen);
-        }}
-        editUser={selected}
-        isEdit
-        role='Task'
-        viewOnly={user.role === 'Employee'}
-      /> */}
-      {/* <AddToTableModal
-        isOpen={isAddToOpen}
-        closeDialog={toggleAddToOpen}
-        targetId={selectedTask}
-        addAction={assignTaskToManager}
-        data={managers}
-        slug='Assign'
-        resource='managers'
-      /> */}
-      {/* <AddToTableModal
-        isOpen={isRemoveFromOpen}
-        closeDialog={toggleRemoveFromOpen}
-        targetId={selectedTask}
-        addAction={unAssignTaskFromManger}
-        data={managers}
-        slug='unAssign'
-        resource='managers'
-      /> */}
-      {/* <AddToGroupModal
-        isOpen={isAddToOpen2}
-        closeDialog={toggleAddToOpen2}
-        targetId={selectedTask}
-        addAction={assignTaskToGroup}
-        data={groups}
-        slug='Assign'
-        resource='Task'
-      /> */}
-      {/* <AddToGroupModal
-        isOpen={isRemoveFromOpen2}
-        closeDialog={toggleRemoveFromOpen2}
-        targetId={selectedTask}
-        addAction={unAssignTaskFromGroup}
-        data={groups}
-        slug='unAssign'
-        resource='Task'
-      /> */}
     </Page>
   );
 };
+
+export default TaskTable;

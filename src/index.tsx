@@ -1,15 +1,23 @@
-import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
-import App from './App';
+import { Provider as StoreProvider } from 'react-redux';
 import { HelmetProvider } from 'react-helmet-async';
+import App from './App';
+
 import 'simplebar/src/simplebar.css';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+import store from 'store';
 
 ReactDOM.render(
-  <HelmetProvider>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </HelmetProvider>,
+  <StoreProvider store={store}>
+    <HelmetProvider>
+      <BrowserRouter>
+        <App />
+        <ToastContainer />
+      </BrowserRouter>
+    </HelmetProvider>
+  </StoreProvider>,
   document.getElementById('root')
 );

@@ -32,31 +32,18 @@ interface IDialogRoot {
   toggleDialog: React.MouseEventHandler<any> | undefined;
   dialogTitle: string;
   children: React.ReactNode;
-  form: string;
-  formType?: 'add' | 'delete' | 'edit';
+  // form: string;
+  // formType?: 'add' | 'delete' | 'edit';
 }
 
 export interface IDialogReus {
   open: boolean;
-  toggleDialog: React.MouseEventHandler<HTMLButtonElement>;
+  toggleDialog: any;
+  update?: any;
 }
 
-const DiaTitleCont = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-  gap: '1rem',
-  flexWrap: 'nowrap',
-}));
-
-const DialogActionsExt = styled(DialogActions)(({ theme }) => ({
-  backgroundColor: theme.palette.background.default,
-  padding: '16px 24px',
-}));
-
 const DialogRoot = (props: IDialogRoot) => {
-  const { open, toggleDialog, dialogTitle, form, formType } = props;
-  const theme = useTheme();
+  const { open, toggleDialog, dialogTitle } = props;
 
   return (
     <Dialog
@@ -66,45 +53,14 @@ const DialogRoot = (props: IDialogRoot) => {
       onClose={toggleDialog}
       sx={{ padding: '1rem' }}
     >
-      <DialogTitle
-        sx={{
-          mb: 1,
-        }}
-      >
-        <DiaTitleCont>
-          <Typography variant='subtitle1'>{dialogTitle}</Typography>
-          <IconButton color='error' aria-label='close dialog'>
-            <Icon
-              icon={closeFill}
-              width={22}
-              height={22}
-              color={theme.palette.error.main}
-              onClick={toggleDialog}
-            />
-          </IconButton>
-        </DiaTitleCont>
-        <Divider />
+      <DialogTitle>
+        <Typography variant='subtitle1' component='span'>
+          {dialogTitle}
+        </Typography>
       </DialogTitle>
-      <Scrollbar
-        sx={{
-          maxHeight: 400,
-        }}
-      >
-        <DialogContent>
-          <React.Fragment>{props.children}</React.Fragment>
-        </DialogContent>
-      </Scrollbar>
-      {/* <React.Fragment>{props.children}</React.Fragment> */}
-      <DialogActionsExt>
-        <Button onClick={toggleDialog} variant='outlined' color={undefined}>
-          Cancel
-        </Button>
-        <Button type='submit' form={form} variant='contained'>
-          Submit
-        </Button>
-      </DialogActionsExt>
+      <Divider />
+      <React.Fragment>{props.children}</React.Fragment>
     </Dialog>
   );
 };
-
 export default DialogRoot;
