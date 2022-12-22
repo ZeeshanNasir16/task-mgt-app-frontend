@@ -1,10 +1,10 @@
 import axios from 'axios';
 
 // * Development URLs
-const baseURL = `http://localhost:5005/api`;
+// const baseURL = `http://localhost:5005/api`;
 
 // * Production URLs
-// const baseURL = `https://task-mgt.herokuapp.com/api`;
+const baseURL = `https://fine-erin-llama-wig.cyclic.app/api`;
 
 export const LOCALSTORAGE_TOKEN_KEY = 'task-mgt';
 
