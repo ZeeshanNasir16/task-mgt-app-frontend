@@ -2,7 +2,7 @@ import { toast } from 'react-toastify';
 import { LOCALSTORAGE_TOKEN_KEY } from '../../../api/index';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { User } from 'interfaces/User';
-import { login, getMe } from './extraReducers';
+import { login, getMe } from './extraReducers.auth';
 
 export interface ILogin {
   token: string;
@@ -26,9 +26,16 @@ const initialState: IInitialState = {
 };
 
 const authSlice = createSlice({
-  name: 'auth',
+  name: 'auth-Slice',
   initialState,
-  reducers: {},
+  reducers: {
+    logout(state) {
+      window.localStorage.removeItem(LOCALSTORAGE_TOKEN_KEY);
+      state.isLoggedIn = false;
+      state.user = null;
+      state.token = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(login.pending, (state) => {
@@ -71,4 +78,5 @@ const authSlice = createSlice({
   },
 });
 
+export const { logout } = authSlice.actions;
 export default authSlice.reducer;

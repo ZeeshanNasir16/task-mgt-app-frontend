@@ -21,8 +21,8 @@ import { dateFormat } from 'Utils/Date';
 
 import closeCircleOutlined from '@iconify/icons-ant-design/close-circle-outlined';
 import ConfirmDialog from 'Components/dialogs/ConfirmDialog';
-import { useAppDispatch } from 'store/hooks';
-import { deleteProj } from 'store/slices/projects/extraReducers';
+import { useAppDispatch } from 'store/hooks.store';
+import { deleteProj } from 'store/slices/projects/extraReducers.project';
 
 const ProjHeadDetails = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -100,6 +100,19 @@ export const ProjBoardHeader = (props: ProjBoardHeadProps) => {
           </Box>
         </Box>
         <ProjHeadDetails>
+          {/* <Box display='flex' gap={1} alignItems='center'>
+            <Avatar
+              key={project.assignedTo._id}
+              sx={{ width: 30, height: 30 }}
+              alt={project.assignedTo.fullName}
+              src={`https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=${project.assignedTo?.fullName
+                .split(' ')
+                .join('%20')}`}
+            />
+            <Typography variant='body1'>
+              {project.assignedTo.fullName}
+            </Typography>
+          </Box> */}
           <Box>
             <Typography variant='subtitle2' color='text.secondary'>
               {`Start Date :   ${dateFormat(project.startDate, 'MM-dd-yyyy')}`}

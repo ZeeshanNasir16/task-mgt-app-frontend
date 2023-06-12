@@ -9,9 +9,9 @@ import React, { useState, useEffect } from 'react';
 import { Task_DB } from 'interfaces/Task';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import BoardData from 'data/boardData.json';
-import { useAppSelector } from 'store/hooks';
+import { useAppSelector } from 'store/hooks.store';
 import { User } from 'interfaces/User';
-import { userSpecificTasks } from 'api/tasks';
+import { updateTask, userSpecificTasks } from 'api/tasks.api';
 import Scrollbar from 'Components/common/Scrollbar';
 
 // import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
@@ -56,27 +56,30 @@ interface IProps {
   userId: string;
 }
 
+const columns = ['todo', 'inProgress', 'review', 'completed'];
+
+const includeColsNotFound = (arr: []) => {
+  // console.log(arr.length);
+  if (arr.length > 0) {
+    let filtArr: any[] = [...Array(4)];
+    let colsNotFound: string[] = [];
+    let cols = arr.map((el: any) => el._id);
+
+    columns.forEach((e: string) => !cols.includes(e) && colsNotFound.push(e));
+
+    let newCols = colsNotFound.map((el: string) => ({ _id: el, items: [] }));
+    [...arr, ...newCols].forEach(
+      (el: any) => (filtArr[columns.indexOf(el._id)] = el)
+    );
+    return filtArr;
+  } else {
+    let a = columns.map((el: string) => ({ _id: el, items: [] }));
+    return a;
+  }
+};
+
 export const TaskBoard = (props: IProps) => {
   const { userId } = props;
-
-  let boardDetails = [
-    {
-      name: 'Todo',
-      items: [],
-    },
-    {
-      name: 'In Progress',
-      items: [],
-    },
-    {
-      name: 'Review',
-      items: [],
-    },
-    {
-      name: 'Completed',
-      items: [],
-    },
-  ];
 
   // userTasks.tasks.map((el: Task_DB) => el.status === 'todo' ? boardDetails['todo']);
 
@@ -88,10 +91,10 @@ export const TaskBoard = (props: IProps) => {
   useEffect(() => {
     // if (process.browser) {
     (async () => {
-      const response = await userSpecificTasks(userId);
+      const response: any = await userSpecificTasks(userId);
       const taskList = await response.data.tasks;
-      console.log('Tasks', taskList);
-      setBoardDetails(taskList);
+
+      setBoardDetails(includeColsNotFound(taskList));
       setReady(true);
     })();
   }, [userId]);
@@ -111,83 +114,87 @@ export const TaskBoard = (props: IProps) => {
       dragItem
     );
 
-    setBoardData(newBoardData);
+    console.log(dragItem);
+    console.log(re);
+
+    // const statusCol = columns[+re.destination.droppableId];
+    // console.log('Status', statusCol);
+    // const response = await updateTask(dragItem.id, { status: statusCol });
+
+    setBoardDetails(newBoardData);
   };
-  // const onDragEnd = (re: any) => {
-  //   if (!re.destination) return;
-  //   let newBoardData = boardData;
-  //   var dragItem =
-  //     newBoardData[parseInt(re.source.droppableId)].items[re.source.index];
-  //   newBoardData[parseInt(re.source.droppableId)].items.splice(
-  //     re.source.index,
-  //     1
-  //   );
-  //   newBoardData[parseInt(re.destination.droppableId)].items.splice(
-  //     re.destination.index,
-  //     0,
-  //     dragItem
-  //   );
-  //   setBoardData(newBoardData);
-  // };
 
   return (
     <Page title='Task Board | Manager'>
       <WrapperHeader heading='Task Board' />
       <RootStyle>
         {ready && (
-          <DragDropContext onDragEnd={onDragEnd}>
-            {/* <RootStyle> */}
-            {boardDetals.map((board: any, bIndex: number) => {
-              return (
-                <div key={board._id}>
-                  <Droppable droppableId={bIndex.toString()}>
-                    {(provided, snapshot) => (
-                      <div {...provided.droppableProps} ref={provided.innerRef}>
-                        <TaskBoardColumn
-                          sx={{
-                            backgroundColor: getBoardHeaderColor[bIndex],
-                          }}
-                          boardBg={
-                            snapshot.isDraggingOver
-                              ? 'secondary.main'
-                              : 'inherit'
-                          }
-                          headerTitle={board._id}
-                        >
-                          <InnerBox>
-                            {board.items.length > 0 &&
-                              board.items.map((item: any, iIndex: number) => {
-                                return (
-                                  <TaskBoardItem
-                                    key={item.id}
-                                    task={item}
-                                    index={iIndex}
-                                    nodrag={false}
-                                  />
-                                );
-                              })}
-                            {provided.placeholder}
-                          </InnerBox>
-                        </TaskBoardColumn>
-                      </div>
-                    )}
-                  </Droppable>
-                </div>
-              );
-            })}
-            {/* </RootStyle> */}
-          </DragDropContext>
+          <>
+            <DragDropContext onDragEnd={onDragEnd}>
+              {boardDetals.map(
+                (board: any, bIndex: number) =>
+                  board._id !== 'completed' && (
+                    <div key={board._id}>
+                      <Droppable droppableId={bIndex.toString()}>
+                        {(provided, snapshot) => (
+                          <Box
+                            {...provided.droppableProps}
+                            ref={provided.innerRef}
+                            sx={{ height: '100%' }}
+                          >
+                            <TaskBoardColumn
+                              sx={{
+                                backgroundColor: getBoardHeaderColor[bIndex],
+                              }}
+                              boardBg={
+                                snapshot.isDraggingOver
+                                  ? 'secondary.main'
+                                  : 'inherit'
+                              }
+                              headerTitle={board._id}
+                            >
+                              <InnerBox>
+                                {board.items.length > 0 &&
+                                  board.items.map(
+                                    (item: any, iIndex: number) => (
+                                      <TaskBoardItem
+                                        key={item.id}
+                                        task={item}
+                                        index={iIndex}
+                                        nodrag={false}
+                                      />
+                                    )
+                                  )}
+                                {provided.placeholder}
+                              </InnerBox>
+                            </TaskBoardColumn>
+                          </Box>
+                        )}
+                      </Droppable>
+                    </div>
+                  )
+              )}
+            </DragDropContext>
+            <TaskBoardColumn
+              sx={{
+                backgroundColor: 'success.dark',
+              }}
+              headerTitle='Completed'
+              boardBg='inherit'
+            >
+              {/* {console.log(boardDetals[3].items.length)} */}
+              {boardDetals[3].items.length > 0 &&
+                boardDetals[3].items.map((item: any, iIndex: number) => (
+                  <TaskBoardItem
+                    key={item.id}
+                    task={item}
+                    index={iIndex}
+                    nodrag={true}
+                  />
+                ))}
+            </TaskBoardColumn>
+          </>
         )}
-
-        <TaskBoardColumn
-          sx={{
-            backgroundColor: 'success.dark',
-          }}
-          headerTitle='Completed'
-          boardBg={'inherit'}
-        >
-          <TaskBoardItem task={tasks[0]} nodrag={true} />
-        </TaskBoardColumn>
       </RootStyle>
     </Page>
   );

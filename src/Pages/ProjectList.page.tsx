@@ -8,7 +8,7 @@ import { RndCrndWrapper } from 'Layouts/common/RoundCornWrapper';
 import { TabLayout } from 'Layouts/common/TabLayout';
 import { WrapperHeader } from 'Layouts/common/WrapperHeader';
 import React, { useState } from 'react';
-import { useAppSelector } from 'store/hooks';
+import { useAppSelector } from 'store/hooks.store';
 
 type Props = {};
 

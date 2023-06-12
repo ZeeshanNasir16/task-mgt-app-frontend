@@ -13,8 +13,8 @@ import {
 import { Task_DB } from 'interfaces/Task';
 import TaskFormDialog from 'Components/dialogs/TaskFormDialog';
 import ConfirmDialog from 'Components/dialogs/ConfirmDialog';
-import { useAppDispatch } from 'store/hooks';
-import { deleteTask } from 'store/slices/tasks/extraReducers';
+import { useAppDispatch } from 'store/hooks.store';
+import { deleteTask } from 'store/slices/tasks/extraReducers.tasks';
 
 // ----------------------------------------------------------------------
 
@@ -33,11 +33,15 @@ export default function TaskMoreMenu({
   const [isOpen, setIsOpen] = useState(false);
   const [updTaskDialog, setUpdTaskDialog] = useState<boolean>(false);
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
-
+  const [toggleDeleteDialog, setToggleDeleteDialog] = useState(false);
   const dispatch = useAppDispatch();
 
   const handleToggleForm = () => {
-    setDialogOpen((st) => !st);
+    setUpdTaskDialog((st) => !st);
+  };
+
+  const toggleDeleteForm = () => {
+    setToggleDeleteDialog((st) => !st);
   };
 
   const handleDelete = () => {
@@ -81,7 +85,7 @@ export default function TaskMoreMenu({
             primaryTypographyProps={{ variant: 'body2' }}
           />
         </MenuItem>
-        <MenuItem sx={{ color: 'text.secondary' }} onClick={handleDelete}>
+        <MenuItem sx={{ color: 'text.secondary' }} onClick={toggleDeleteForm}>
           <ListItemIcon>
             <Icon icon={trash2Outline} width={24} height={24} />
           </ListItemIcon>
@@ -97,8 +101,8 @@ export default function TaskMoreMenu({
         projectId={projectId}
       />
       <ConfirmDialog
-        open={dialogOpen}
-        toggleDialog={handleToggleForm}
+        open={toggleDeleteDialog}
+        toggleDialog={toggleDeleteForm}
         description='Are you sure you want to delete ?'
         confirmAction={handleDelete}
       />

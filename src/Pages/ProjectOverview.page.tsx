@@ -9,7 +9,7 @@ import { WrapperHeader } from 'Layouts/common/WrapperHeader';
 import { Overview } from 'Components/Project/ProjOverview';
 import { TabLayout } from 'Layouts/common/TabLayout';
 import TaskTable from 'Components/Task/TaskTable';
-import { useAppDispatch, useAppSelector } from 'store/hooks';
+import { useAppDispatch, useAppSelector } from 'store/hooks.store';
 import { useParams } from 'react-router-dom';
 import { Typography } from '@mui/material';
 import { dateFormat } from 'Utils/Date';

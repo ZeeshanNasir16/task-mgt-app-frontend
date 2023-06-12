@@ -84,7 +84,12 @@ export default function Login() {
 
       <MHidden type='down' value='md'>
         <SectionStyle>
-          <Box mb={2} sx={{ px: 5, mb: 5 }}>
+          <Box
+            display='flex'
+            flexDirection='column'
+            mb={2}
+            sx={{ px: 5, mb: 5 }}
+          >
             <Logo variant='h3' />
             <Typography variant='body1' component='span' sx={{ mt: 3 }}>
               Manage your tasks effectively using <strong>Manage.</strong>

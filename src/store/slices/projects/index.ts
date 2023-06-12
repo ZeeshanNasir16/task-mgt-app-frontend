@@ -6,7 +6,7 @@ import {
   deleteProj,
   fetchProjects,
   updateProject,
-} from './extraReducers';
+} from './extraReducers.project';
 
 interface IInitialState {
   projects: Project_DB[] | [];

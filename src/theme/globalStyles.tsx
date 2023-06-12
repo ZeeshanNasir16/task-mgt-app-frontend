@@ -15,6 +15,7 @@ export default function GlobalStyles() {
           boxSizing: 'border-box',
           '&::-webkit-scrollbar': {
             width: 5,
+            height: 5,
             borderRadius: 10,
           },
 

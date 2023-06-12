@@ -1,5 +1,5 @@
 import { toast } from 'react-toastify';
-import { addUser, delUser, fetchUsers, updatUser } from './extraReducers';
+import { addUser, delUser, fetchUsers, updatUser } from './extraReducers.user';
 import { createSlice } from '@reduxjs/toolkit';
 import { User } from 'interfaces/User';
 

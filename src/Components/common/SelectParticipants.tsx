@@ -4,7 +4,7 @@ import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
 import Typography from '@mui/material/Typography';
 import Scrollbar from 'Components/common/Scrollbar';
-import { useAppSelector } from 'store/hooks';
+import { useAppSelector } from 'store/hooks.store';
 import { User } from 'interfaces/User';
 import { Button, Input, styled } from '@mui/material';
 

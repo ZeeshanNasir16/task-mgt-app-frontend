@@ -33,6 +33,7 @@ export const DashboardLayout = () => {
   const toggleOpen = () => {
     setOpen((st) => !st);
   };
+
   return (
     <RootStyle>
       <DashBoardNavBar onOpenSidebar={toggleOpen} open={open} />

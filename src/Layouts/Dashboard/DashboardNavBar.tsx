@@ -1,18 +1,8 @@
 import { Icon } from '@iconify/react';
 import menu2Fill from '@iconify/icons-eva/menu-2-fill';
-// material
-// import { alpha, styled } from '@material-ui/core/styles';
-// import { Box, Stack, AppBar, Toolbar, IconButton } from '@material-ui/core';
-// components
-// import { MHidden } from Ccomponents/@material-extend';
-//
 import { MHidden } from 'Components/@material-extend';
-// import Searchbar from './Searchbar';
-// import AccountPopover from './AccountPopover';
-// import LanguagePopover from './LanguagePopover';
-// import NotificationsPopover from './NotificationsPopover';
+import AccountPopover from 'Components/AccountPopover';
 import {
-  alpha,
   Box,
   styled,
   Toolbar,
@@ -25,6 +15,7 @@ import React from 'react';
 import MuiAppBar from '@mui/material/AppBar';
 import NotificationsPopover from 'Layouts/Dashboard/NotificationPopover';
 import { Logo } from 'Components/common/Logo';
+import { useAppSelector } from 'store/hooks.store';
 
 const DRAWER_WIDTH = 240;
 const APPBAR_MOBILE = 64;
@@ -32,9 +23,6 @@ const APPBAR_DESKTOP = 75;
 
 const RootStyle = styled(MuiAppBar)(({ theme }) => ({
   boxShadow: 'none',
-  // backdropFilter: 'blur(6px)',
-  // WebkitBackdropFilter: 'blur(6px)', // Fix on Mobile
-  // backgroundColor: alpha(theme.palette.background.default, 0.72),
   backgroundColor: theme.palette.background.paper,
   borderBottom: `1px solid ${theme.palette.divider}`,
   [theme.breakpoints.up('lg')]: {
@@ -57,6 +45,7 @@ interface DashboardProps {
 
 export const DashBoardNavBar = (props: DashboardProps) => {
   const { onOpenSidebar } = props;
+  const { user } = useAppSelector((st) => st.auth);
 
   return (
     <RootStyle>
@@ -77,17 +66,14 @@ export const DashBoardNavBar = (props: DashboardProps) => {
             Welcome
           </Typography>
         </MHidden>
-        {/* <Searchbar /> */}
         <Box sx={{ flexGrow: 1 }} />
-
         <Stack
           direction='row'
           alignItems='center'
           spacing={{ xs: 0.5, sm: 1.5 }}
         >
-          {/* <LanguagePopover /> */}
           <NotificationsPopover />
-          {/* <AccountPopover /> */}
+          <AccountPopover />
         </Stack>
       </ToolbarStyle>
     </RootStyle>

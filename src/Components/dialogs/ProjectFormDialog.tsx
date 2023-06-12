@@ -20,11 +20,11 @@ import DialogRoot, { IDialogReus } from 'Components/dialogs/DialogRoot';
 import { dateFormat } from 'Utils/Date';
 
 import plusCircleFilled from '@iconify/icons-ant-design/plus-circle-filled';
-import { useAppDispatch, useAppSelector } from 'store/hooks';
+import { useAppDispatch, useAppSelector } from 'store/hooks.store';
 import {
   createProject,
   updateProject,
-} from 'store/slices/projects/extraReducers';
+} from 'store/slices/projects/extraReducers.project';
 import Scrollbar from 'Components/common/Scrollbar';
 import { DialogActionsExt } from 'Components/dialogs/styled';
 import { LoadingButton } from '@mui/lab';
@@ -218,7 +218,7 @@ export default function ProjectFormDialog(props: IDialogReus) {
                     fullWidth
                   />
                 </Grid>
-                <Grid item xs={12} sm={12}>
+                {/* <Grid item xs={12} sm={12}>
                   <UploadFileRoot>
                     <UploadFileInner>
                       <div className='imgBox'>
@@ -239,7 +239,7 @@ export default function ProjectFormDialog(props: IDialogReus) {
                       </div>
                     </UploadFileInner>
                   </UploadFileRoot>
-                </Grid>
+                </Grid> */}
                 <Grid item xs={12} sm={12}>
                   <Typography variant='subtitle1'>Assigned To</Typography>
                   <Box
@@ -250,14 +250,19 @@ export default function ProjectFormDialog(props: IDialogReus) {
                     mt={1}
                   >
                     {!!assginedTo && (
-                      <Avatar
-                        key={assginedTo._id}
-                        sx={{ ...UserAvatarSize }}
-                        alt={assginedTo.fullName}
-                        src={`https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=${assginedTo?.fullName
-                          .split(' ')
-                          .join('%20')}`}
-                      />
+                      <Box display='flex' gap={1} alignItems='center'>
+                        <Avatar
+                          key={assginedTo._id}
+                          sx={{ ...UserAvatarSize }}
+                          alt={assginedTo.fullName}
+                          src={`https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=${assginedTo?.fullName
+                            .split(' ')
+                            .join('%20')}`}
+                        />
+                        <Typography variant='body1'>
+                          {assginedTo.fullName}
+                        </Typography>
+                      </Box>
                     )}
 
                     <IconButton

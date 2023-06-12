@@ -1,4 +1,4 @@
-import * as projAPI from 'api/project';
+import * as projAPI from 'api/project.api';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { Project_CL, updateProj } from 'interfaces/Project';

@@ -26,7 +26,16 @@ export interface Task_CL extends Task_Base {
   project: string;
 }
 
-export interface updateTask {
-  id: string;
-  body: Task_CL;
+export interface Upd_Task {
+  title?: string;
+  description?: string;
+  deadLine?: Date;
+  status?: string;
+  check?: string;
+  assignedTo?: {
+    user?: string;
+    date?: Date;
+  };
+  assignedBy?: string;
+  completionDate?: Date;
 }

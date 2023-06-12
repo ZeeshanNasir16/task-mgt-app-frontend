@@ -1,7 +1,7 @@
 import { errorCallback } from 'api';
 import { UpdateUser, AddUser } from 'interfaces/User';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import * as userAPI from 'api/users';
+import * as userAPI from 'api/users.api';
 
 export const addUser = createAsyncThunk(
   'add-user',

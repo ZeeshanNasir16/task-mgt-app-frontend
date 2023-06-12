@@ -1,4 +1,4 @@
-import { Task_CL } from 'interfaces/Task';
+import { Task_CL, Upd_Task } from 'interfaces/Task';
 import { API, getSECURE_API } from 'api';
 
 const SECURE_API = getSECURE_API();
@@ -10,7 +10,7 @@ export const getAllTasks = () => SECURE_API.get('/tasks');
 
 export const getTask = (id: string) => SECURE_API.get(`/tasks/${id}`);
 
-export const updateTask = (id: string, body: Task_CL) =>
+export const updateTask = (id: string, body: Upd_Task) =>
   SECURE_API.patch(`/tasks/${id}`, { ...body });
 
 export const deleteTask = (id: string) => SECURE_API.delete(`/tasks/${id}`);

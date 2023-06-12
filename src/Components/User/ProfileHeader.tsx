@@ -1,8 +1,9 @@
 import { Avatar, Paper, styled } from '@mui/material';
-import { RndCrndWrapper } from 'Layouts/common/RoundCornWrapper';
 import React from 'react';
 
-type Props = {};
+interface Props {
+  username: string;
+}
 
 const InnerDiv = styled('div')(({ theme }) => ({
   '&::before': {
@@ -30,7 +31,7 @@ const FrontLayer = styled('div')(({ theme }) => ({
   marginTop: 40,
 }));
 
-const AccountHeader = (props: Props) => {
+const AccountHeader = ({ username }: Props) => {
   return (
     <Paper
       elevation={0}
@@ -43,7 +44,7 @@ const AccountHeader = (props: Props) => {
       <InnerDiv>
         <FrontLayer>
           <Avatar
-            src='assets/user_2.jpg'
+            src={`https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=${username}`}
             alt='user'
             sx={{ width: 110, height: 110 }}
           />

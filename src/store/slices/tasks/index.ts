@@ -1,7 +1,12 @@
 import { Task_DB } from 'interfaces/Task';
 import { toast } from 'react-toastify';
 import { createSlice } from '@reduxjs/toolkit';
-import { createTask, deleteTask, fetchTasks, updTask } from './extraReducers';
+import {
+  createTask,
+  deleteTask,
+  fetchTasks,
+  updTask,
+} from './extraReducers.tasks';
 
 interface IInitialState {
   tasks: Task_DB[] | [];

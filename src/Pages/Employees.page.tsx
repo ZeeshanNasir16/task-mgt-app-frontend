@@ -8,6 +8,7 @@ import {
   TableBody,
   TableCell,
   TableContainer,
+  TablePagination,
   TableRow,
   Tabs,
   Typography,
@@ -24,11 +25,13 @@ import Scrollbar from 'Components/common/Scrollbar';
 import { employees } from 'data';
 import TableHeadConfig from 'Components/common/TableHeadConfig';
 import EmployeeFormDialog from 'Components/dialogs/EmployeeFormDialog';
-import { useAppDispatch, useAppSelector } from 'store/hooks';
+import { useAppDispatch, useAppSelector } from 'store/hooks.store';
 import { User } from 'interfaces/User';
 import EmpMoreMenu from 'Components/User/UserMoreMenu';
 
-type Props = {};
+type Props = {
+  userId: string;
+};
 
 export interface Employee {
   _id: string;
@@ -51,15 +54,19 @@ const TABLE_HEAD: ITable_Head[] = [
   { id: 'options', label: '' },
 ];
 
-const Employees = (props: Props) => {
+const Employees = ({ userId }: Props) => {
   const [order, setOrder] = useState<'asc' | 'desc'>('asc');
   const [orderBy, setOrderBy] = useState<string>('name');
   const [page, setPage] = useState<number>(0);
   const [rowsPerPage, setRowsPerPage] = useState<number>(5);
   const [isCreateOpen, setIsCreateOpen] = useState<boolean>(false);
 
-  const { users, fetching } = useAppSelector((st) => st.users);
-  const { projects, loading } = useAppSelector((st) => st.proj);
+  const usersStore = useAppSelector((st) => ({
+    users: st.users.users.filter((el: User) => el._id !== userId),
+    fetching: st.users.fetching,
+  }));
+
+  const { user } = useAppSelector((st) => st.auth);
 
   const handleRequestSort = (
     _e: React.MouseEvent<unknown>,
@@ -72,13 +79,17 @@ const Employees = (props: Props) => {
 
   const toggleCreateOpen = () => setIsCreateOpen((st) => !st);
 
-  // const dispatch = useAppDispatch();
+  const handleChangePage = (
+    _e: React.MouseEvent<HTMLButtonElement, MouseEvent> | null,
+    newPage: number
+  ) => {
+    setPage(newPage);
+  };
 
-  // useEffect(() => {
-  //   dispatch(getUsers)
-  // }, []);
-
-  console.log('USers : ', users);
+  const handleChangeRowsPerPage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setRowsPerPage(parseInt(e.target.value, 10));
+    setPage(0);
+  };
 
   const dialogProps = {
     open: isCreateOpen,
@@ -86,7 +97,7 @@ const Employees = (props: Props) => {
   };
 
   return (
-    <Page title='Employees | Manager'>
+    <Page title={`Employees | ${!!user && user.role}`}>
       <WrapperHeader heading='Employees' />
       <RndCrndWrapper>
         <Stack
@@ -95,15 +106,15 @@ const Employees = (props: Props) => {
           justifyContent='flex-end'
           mb={5}
         >
-          {/* {user && user.role === 'Admin' && ( */}
-          <Button
-            variant='contained'
-            onClick={toggleCreateOpen}
-            startIcon={getIcon(plusFill)}
-          >
-            New Employee
-          </Button>
-          {/* )} */}
+          {user && user.role === 'admin' && (
+            <Button
+              variant='contained'
+              onClick={toggleCreateOpen}
+              startIcon={getIcon(plusFill)}
+            >
+              New Employee
+            </Button>
+          )}
         </Stack>
         <Scrollbar>
           <TableContainer sx={{ minWidth: 800 }}>
@@ -112,13 +123,13 @@ const Employees = (props: Props) => {
                 order={order}
                 orderBy={orderBy}
                 headLabel={TABLE_HEAD}
-                rowCount={users ? users.length : 0}
+                rowCount={usersStore.users ? usersStore.users.length : 0}
                 numSelected={0}
                 onRequestSort={handleRequestSort}
                 // onSelectAllClick={handleSelectAllClick}
               />
               <TableBody>
-                {fetching
+                {usersStore.fetching
                   ? Array(5)
                       .fill('')
                       .map((_, idx) => (
@@ -132,9 +143,9 @@ const Employees = (props: Props) => {
                             ))}
                         </TableRow>
                       ))
-                  : users &&
-                    users.length > 0 &&
-                    users
+                  : usersStore.users &&
+                    usersStore.users.length > 0 &&
+                    usersStore.users
                       .slice(
                         page * rowsPerPage,
                         page * rowsPerPage + rowsPerPage
@@ -175,14 +186,16 @@ const Employees = (props: Props) => {
                             <TableCell align='left'>{role}</TableCell>
                             <TableCell align='left'>{email}</TableCell>
 
-                            <TableCell align='right'>
-                              <EmpMoreMenu currentUser={row} />
-                            </TableCell>
+                            {!!user && user.role === 'admin' && (
+                              <TableCell align='right'>
+                                <EmpMoreMenu currentUser={row} />
+                              </TableCell>
+                            )}
                           </TableRow>
                         );
                       })}
               </TableBody>
-              {!fetching && users.length === 0 && (
+              {!usersStore.fetching && usersStore.users.length === 0 && (
                 <TableBody>
                   <TableRow>
                     <TableCell align='center' colSpan={4} sx={{ py: 3 }}>
@@ -196,6 +209,15 @@ const Employees = (props: Props) => {
             </Table>
           </TableContainer>
         </Scrollbar>
+        <TablePagination
+          rowsPerPageOptions={[5, 10, 25]}
+          component='div'
+          count={usersStore.users ? usersStore.users.length : 0}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
       </RndCrndWrapper>
       <EmployeeFormDialog dialogProps={dialogProps} />
     </Page>

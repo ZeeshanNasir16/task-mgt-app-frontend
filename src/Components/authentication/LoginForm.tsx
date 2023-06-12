@@ -15,8 +15,8 @@ import {
   TextField,
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-import { login } from 'store/slices/auth/extraReducers';
-import { useAppDispatch, useAppSelector } from 'store/hooks';
+import { login } from 'store/slices/auth/extraReducers.auth';
+import { useAppDispatch, useAppSelector } from 'store/hooks.store';
 
 // ----------------------------------------------------------------------
 

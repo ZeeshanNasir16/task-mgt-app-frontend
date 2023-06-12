@@ -21,8 +21,8 @@ import { dateFormat } from 'Utils/Date';
 
 import plusCircleFilled from '@iconify/icons-ant-design/plus-circle-filled';
 import minusCircleFilled from '@iconify/icons-ant-design/minus-circle-filled';
-import { useAppDispatch, useAppSelector } from 'store/hooks';
-import { createTask, updTask } from 'store/slices/tasks/extraReducers';
+import { useAppDispatch, useAppSelector } from 'store/hooks.store';
+import { createTask, updTask } from 'store/slices/tasks/extraReducers.tasks';
 import Scrollbar from 'Components/common/Scrollbar';
 import { DialogActionsExt } from 'Components/dialogs/styled';
 import { LoadingButton } from '@mui/lab';
@@ -121,7 +121,7 @@ export default function TaskFormDialog(props: ITaskFormProps) {
           date: assginedTo?.user && new Date(),
         },
         assignedBy: props.managerId,
-        check: assginedTo?.user._id ? 'assigned' : 'unassigned',
+        check: assginedTo?.user._id ? 'assigned' : 'unAssigned',
         project: props.projectId,
       };
 

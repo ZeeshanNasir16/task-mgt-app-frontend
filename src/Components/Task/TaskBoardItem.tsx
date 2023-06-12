@@ -38,6 +38,7 @@ const RootStyle = styled(Box)(({ theme }) => ({
 export const TaskBoardItem = (props: IBoardItem) => {
   const { task, index, nodrag } = props;
   const theme = useTheme();
+
   return (
     <>
       {!nodrag ? (
@@ -60,6 +61,7 @@ export const TaskBoardItem = (props: IBoardItem) => {
                   {getIcon(flagFill, `${theme.palette.error.main}`)}
                   <Typography variant='body2' component='span'>
                     {dateFormat(task.deadLine, 'MM-dd-yyyy')}
+                    {/* {task.deadline} */}
                   </Typography>
                 </Box>
                 {/* <Box display='flex' gap={1}>

@@ -11,9 +11,9 @@ import {
   ListItemText,
 } from '@mui/material';
 import ConfirmDialog from 'Components/dialogs/ConfirmDialog';
-import { useAppDispatch } from 'store/hooks';
+import { useAppDispatch } from 'store/hooks.store';
 import { User } from 'interfaces/User';
-import { delUser } from 'store/slices/users/extraReducers';
+import { delUser } from 'store/slices/users/extraReducers.user';
 import EmployeeFormDialog from 'Components/dialogs/EmployeeFormDialog';
 
 // ----------------------------------------------------------------------

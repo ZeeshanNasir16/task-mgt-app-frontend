@@ -1,5 +1,5 @@
 import { Box, IconButton, styled, Typography } from '@mui/material';
-import { users } from 'data';
+// import { users } from 'data';
 import { getIcon } from 'Utils/GetIcon';
 
 import NotificationIcon from '@iconify/icons-ant-design/bell-outlined';
@@ -36,7 +36,7 @@ const NavBar: React.FC = () => {
     <>
       <NavWrapper>
         <Typography variant='h5' className='greeting'>
-          Welcome back, {users.manager.username}
+          Welcome back
         </Typography>
         <Box sx={{ display: 'flex', flexWrap: 'nowrap' }}>
           {NavItems.map((el) => (

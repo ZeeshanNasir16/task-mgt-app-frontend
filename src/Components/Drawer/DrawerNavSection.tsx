@@ -1,53 +1,26 @@
 import React, { useState } from 'react';
-import { Icon } from '@iconify/react';
 import {
   NavLink as RouterLink,
   matchPath,
   useLocation,
-  NavLink,
 } from 'react-router-dom';
-import arrowIosForwardFill from '@iconify/icons-eva/arrow-ios-forward-fill';
-import arrowIosDownwardFill from '@iconify/icons-eva/arrow-ios-downward-fill';
 import {
   alpha,
-  Collapse,
   List,
-  ListItem,
   ListItemButton,
   ListItemIcon,
   ListItemText,
   styled,
-  Theme,
   useTheme,
 } from '@mui/material';
 import { Box } from '@mui/system';
 import { NavItem } from 'Components/Drawer/DrawerNavConfig';
-
-// ----------------------------------------------------------------------
-
-// const ListItemStyle = styled((props) => (
-//   <ListItemButton disableGutters {...props} />
-// ))((theme: Theme) => ({
-//   ...theme.typography.body2,
-//   height: 48,
-//   position: 'relative',
-//   textTransform: 'capitalize',
-//   paddingLeft: theme.spacing(5),
-//   paddingRight: theme.spacing(2.5),
-//   color: theme.palette.text.secondary,
-//   '&:before': {
-//     top: 0,
-//     right: 0,
-//     width: 3,
-//     bottom: 0,
-//     content: "''",
-//     display: 'none',
-//     position: 'absolute',
-//     borderTopLeftRadius: 4,
-//     borderBottomLeftRadius: 4,
-//     backgroundColor: theme.palette.primary.main,
-//   },
-// }));
+import { useAppSelector } from 'store/hooks.store';
+import {
+  AdminSideBar,
+  ProjManagerSideBar,
+  UserSidebar,
+} from 'Components/Drawer/DrawerNavConfig';
 
 const ListItemIconStyle = styled(ListItemIcon)({
   width: 22,
@@ -56,13 +29,6 @@ const ListItemIconStyle = styled(ListItemIcon)({
   alignItems: 'center',
   justifyContent: 'center',
 });
-
-// ----------------------------------------------------------------------
-
-// NavItem.propTypes = {
-//   item: PropTypes.object,
-//   active: PropTypes.func,
-// };
 
 interface SingleItemProps {
   item: NavItem;
@@ -100,16 +66,10 @@ function DrawerItem({ item, active }: SingleItemProps) {
       borderBottomLeftRadius: 4,
       backgroundColor: theme.palette.primary.main,
     },
-    // '&:before': { display: 'block' },
     '& .MuiListItemIcon-root': {
       color: 'primary.main',
     },
   };
-
-  // const activeSubStyle = {
-  //   color: 'text.primary',
-  //   fontWeight: 'fontWeightMedium',
-  // };
 
   return (
     <>
@@ -122,32 +82,34 @@ function DrawerItem({ item, active }: SingleItemProps) {
       >
         <ListItemIconStyle>{icon && icon}</ListItemIconStyle>
         <ListItemText disableTypography primary={title} />
-        {/* {info && info} */}
       </ListItemButton>
     </>
   );
 }
 
-interface NavSectionProps {
-  navConfig: NavItem[];
-}
+const getSidrBarList = (role: string) => {
+  return role === 'admin'
+    ? AdminSideBar
+    : role === 'manager'
+    ? ProjManagerSideBar
+    : UserSidebar;
+};
 
-export default function NavSection({ navConfig }: NavSectionProps) {
+export default function NavSection() {
   const { pathname } = useLocation();
+  const { user } = useAppSelector((st) => st.auth);
   const match = (path: string) =>
     path ? !!matchPath({ path, end: false }, pathname) : false;
 
   return (
-    <Box
-      sx={{ mt: 1 }}
-      //  {...other}
-    >
+    <Box sx={{ mt: 1 }}>
       <List disablePadding>
-        {navConfig.map((item) => (
-          <React.Fragment key={item.title}>
-            <DrawerItem item={item} active={match} />
-          </React.Fragment>
-        ))}
+        {!!user &&
+          getSidrBarList(user.role).map((item) => (
+            <React.Fragment key={item.title}>
+              <DrawerItem item={item} active={match} />
+            </React.Fragment>
+          ))}
       </List>
     </Box>
   );

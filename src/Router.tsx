@@ -1,28 +1,35 @@
 import { Route, Routes, Navigate } from 'react-router-dom';
 
-import { Analytics } from 'Components/Project/Analytics';
-import { TaskBoard } from 'Components/Task/TaskBoard';
-
 import { DashboardLayout } from 'Layouts/Dashboard';
 
-import ProjectList from 'Pages/ProjectList';
-import { MyAccount } from 'Pages/Account';
-import Login from 'Pages/Login';
-import ProjectOverwiew from 'Pages/ProjectOverview';
-
-import { users } from 'data';
-import Employees from 'Pages/Employees';
-import { useAppSelector } from 'store/hooks';
-import { Box } from '@mui/material';
+import { TaskBoard } from 'Components/Task/TaskBoard';
 import Loading from 'Components/common/Loading';
-// import { useSelector } from 'react-redux';
+
+import ProjectList from 'Pages/ProjectList.page';
+import Login from 'Pages/Login.page';
+import ProjectOverwiew from 'Pages/ProjectOverview.page';
+import Employees from 'Pages/Employees.page';
+
+import { useAppDispatch, useAppSelector } from 'store/hooks.store';
+import { MyAccount } from 'Pages/Account.page';
+import React, { useEffect } from 'react';
+import { fetchUsers } from 'store/slices/users/extraReducers.user';
+import { fetchProjects } from 'store/slices/projects/extraReducers.project';
+import { fetchTasks } from 'store/slices/tasks/extraReducers.tasks';
 
 const Router: React.FC = () => {
   const { user, isLoggedIn, authenticating } = useAppSelector((st) => st.auth);
+  const dispatch = useAppDispatch();
+
+  if (isLoggedIn) {
+    dispatch(fetchUsers());
+    dispatch(fetchProjects());
+    dispatch(fetchTasks());
+  }
 
   if (authenticating) return <Loading />;
   return (
-    <>
+    <React.Fragment>
       {isLoggedIn && user ? (
         <Routes>
           <Route path='/' element={<DashboardLayout />}>
@@ -31,24 +38,21 @@ const Router: React.FC = () => {
                 <Route path='/' element={<Navigate to='/projects' />} />
                 <Route path='projects' element={<ProjectList />} />
                 <Route path='projects/:id' element={<ProjectOverwiew />} />
-                <Route path='employees' element={<Employees />} />
-                <Route path='analytics' element={<Analytics />} />
-                {/* <Route path='taskboard' element={<TaskBoard />} /> */}
+                <Route
+                  path='employees'
+                  element={<Employees userId={user._id} />}
+                />
               </Route>
             ) : user?.role === 'manager' ? (
               <Route>
-                <Route path='/' element={<Navigate to='/dashboard' />} />
+                <Route path='/' element={<Navigate to='/projects' />} />
                 <Route path='projects' element={<ProjectList />} />
                 <Route path='projects/:id' element={<ProjectOverwiew />} />
                 <Route
-                  path='taskboard'
-                  element={<TaskBoard userId={user._id} />}
+                  path='employees'
+                  element={<Employees userId={user._id} />}
                 />
-                <Route path='dashboard' element={<></>} />
-                <Route path='employees' element={<Employees />} />
-                {/* <Route path='employees' element={<Employees />} />
-                <Route path='projects/:name' element={<WorkSpace />} />
-                <Route path='analytics' element={<></>} /> */}
+                <Route path='/profile' element={<Navigate to='/myprofile' />} />
               </Route>
             ) : (
               <Route>
@@ -57,6 +61,7 @@ const Router: React.FC = () => {
                   path='taskboard'
                   element={<TaskBoard userId={user._id} />}
                 />
+                <Route path='/myprofile' element={<MyAccount />} />
               </Route>
             )}
             <Route path='*' element={<Navigate to='/' />} />
@@ -69,7 +74,7 @@ const Router: React.FC = () => {
           <Route path='*' element={<Navigate to='/login' />} />
         </Routes>
       )}
-    </>
+    </React.Fragment>
   );
 };
 

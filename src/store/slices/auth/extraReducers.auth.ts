@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import * as userAPI from 'api/users';
+import * as userAPI from 'api/users.api';
 import { LoginUser } from 'interfaces/User';
 import { errorCallback } from 'api';
 

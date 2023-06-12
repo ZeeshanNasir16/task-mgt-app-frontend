@@ -20,11 +20,11 @@ export interface NavItem {
 }
 
 export const AdminSideBar = [
-  {
-    title: 'Dashboard',
-    path: '/dashboard',
-    icon: getIcon(DashBoardIcon),
-  },
+  // {
+  //   title: 'Dashboard',
+  //   path: '/dashboard',
+  //   icon: getIcon(DashBoardIcon),
+  // },
   {
     title: 'Projects',
     path: '/projects',
@@ -35,11 +35,11 @@ export const AdminSideBar = [
     path: '/employees',
     icon: getIcon(EmployeesIcon),
   },
-  {
-    title: 'Analytics & Reports',
-    path: '/analytics',
-    icon: getIcon(AnalyticsIcon),
-  },
+  // {
+  //   title: 'Analytics & Reports',
+  //   path: '/analytics',
+  //   icon: getIcon(AnalyticsIcon),
+  // },
   // {
   //   title: 'Settings',
   //   path: '/',
@@ -48,31 +48,31 @@ export const AdminSideBar = [
 ];
 
 export const ProjManagerSideBar = [
-  {
-    title: 'WorkSpace',
-    path: '/workspace',
-    icon: getIcon(WorkSpaceIcon),
-  },
   // {
-  //   title: 'Employees',
-  //   path: '/',
-  //   icon: getIcon(EmployeesIcon),
-  // },
-  // {
-  //   title: 'Project Board',
-  //   path: '/projectBoard',
-  //   icon: getIcon(ProjectsIcon),
+  //   title: 'WorkSpace',
+  //   path: '/workspace',
+  //   icon: getIcon(WorkSpaceIcon),
   // },
   {
-    title: 'Analytics',
-    path: '/analytics',
-    icon: getIcon(AnalyticsIcon),
+    title: 'Project Board',
+    path: '/projects',
+    icon: getIcon(ProjectsIcon),
   },
   {
-    title: 'Settings',
-    path: '/settings',
-    icon: getIcon(SettingsIcon),
+    title: 'Employees',
+    path: '/employees',
+    icon: getIcon(EmployeesIcon),
   },
+  // {
+  //   title: 'Analytics',
+  //   path: '/analytics',
+  //   icon: getIcon(AnalyticsIcon),
+  // },
+  // {
+  //   title: 'Settings',
+  //   path: '/settings',
+  //   icon: getIcon(SettingsIcon),
+  // },
   {
     title: 'My Account',
     path: '/account',
@@ -81,13 +81,13 @@ export const ProjManagerSideBar = [
 ];
 
 export const UserSidebar = [
+  // {
+  //   title: 'Workspace',
+  //   path: '/',
+  //   icon: getIcon(WorkSpaceIcon),
+  // },
   {
-    title: 'Workspace',
-    path: '/',
-    icon: getIcon(WorkSpaceIcon),
-  },
-  {
-    title: 'Board/Task',
+    title: 'Task Board',
     path: '/',
     icon: getIcon(TaskIcon),
   },
@@ -96,21 +96,21 @@ export const UserSidebar = [
   //   path: '/',
   //   icon: getIcon(shoppingBagFill),
   // },
-  {
-    title: 'Analytics',
-    path: '/',
-    icon: getIcon(fileTextFill),
-  },
-  {
-    title: 'Settings',
-    path: '/',
-    icon: getIcon(lockFill),
-  },
-  {
-    title: 'My Account',
-    path: '/',
-    icon: getIcon(AccountIcon),
-  },
+  // {
+  //   title: 'Analytics',
+  //   path: '/',
+  //   icon: getIcon(fileTextFill),
+  // },
+  // {
+  //   title: 'Settings',
+  //   path: '/',
+  //   icon: getIcon(lockFill),
+  // },
+  // {
+  //   title: 'My Account',
+  //   path: '/',
+  //   icon: getIcon(AccountIcon),
+  // },
 ];
 
 // export default sidebarConfig;
